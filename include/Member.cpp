@@ -4,6 +4,7 @@
 #include "Request.h"
 #include <fstream>
 #include <sstream>
+#include "User.h"
 
 Member::Member(const std::string& username, const std::string& password)
     : User(username, password, "", "", "", "", 0), isAvailable(false), minimumRating(0) {
@@ -36,45 +37,45 @@ void Member::listAvailable(const std::vector<Skills>& skills, int minimumRating)
     isAvailable = true;
 }
 
-void Member::viewRequests() const {
-    // Duyệt qua danh sách các yêu cầu và hiển thị thông tin của mỗi yêu cầu
-    for (const Request& request : requests) {
-        std::cout << "Request ID: " << request.getRequestID() << std::endl;
-        std::cout << "Requestor: " << request.getRequestorName() << std::endl;
-        std::cout << "Requested Skill: " << request.getRequestedSkill() << std::endl;
-        std::cout << "Request Status: " << (request.isAccepted() ? "Accepted" : "Pending") << std::endl;
-        std::cout << "--------------------------" << std::endl;
-    }
-}
+// void Member::viewRequests() const {
+//     // Duyệt qua danh sách các yêu cầu và hiển thị thông tin của mỗi yêu cầu
+//     for (const Request& request : requests) {
+//         std::cout << "Request ID: " << request.getRequestID() << std::endl;
+//         std::cout << "Requestor: " << request.getRequestorName() << std::endl;
+//         std::cout << "Requested Skill: " << request.getRequestedSkill() << std::endl;
+//         std::cout << "Request Status: " << (request.isAccepted() ? "Accepted" : "Pending") << std::endl;
+//         std::cout << "--------------------------" << std::endl;
+//     }
+// }
 
-void Member::acceptRequest(int requestId) {
-    // Tìm yêu cầu cụ thể trong danh sách yêu cầu của thành viên
-    for (Request& request : requests) {
-        if (request.getRequestID() == requestId) {
-            // Đánh dấu yêu cầu là đã chấp nhận
-            request.setAccepted(true);
-            std::cout << "Request " << requestId << " has been accepted." << std::endl;
-            return; // Kết thúc khi đã tìm thấy yêu cầu
-        }
-    }
-    // Nếu không tìm thấy yêu cầu
-    std::cout << "Request " << requestId << " not found or already accepted." << std::endl;
-}
+// void Member::acceptRequest(int requestId) {
+//     // Tìm yêu cầu cụ thể trong danh sách yêu cầu của thành viên
+//     for (Request& request : requests) {
+//         if (request.getRequestID() == requestId) {
+//             // Đánh dấu yêu cầu là đã chấp nhận
+//             request.setAccepted(true);
+//             std::cout << "Request " << requestId << " has been accepted." << std::endl;
+//             return; // Kết thúc khi đã tìm thấy yêu cầu
+//         }
+//     }
+//     // Nếu không tìm thấy yêu cầu
+//     std::cout << "Request " << requestId << " not found or already accepted." << std::endl;
+// }
 
 
-void Member::rejectRequest(int requestId) {
-    // Tìm yêu cầu cụ thể trong danh sách yêu cầu của thành viên
-    for (Request& request : requests) {
-        if (request.getRequestID() == requestId) {
-            // Đánh dấu yêu cầu là đã từ chối
-            request.setAccepted(false);
-            std::cout << "Request " << requestId << " has been rejected." << std::endl;
-            return; // Kết thúc khi đã tìm thấy yêu cầu
-        }
-    }
-    // Nếu không tìm thấy yêu cầu
-    std::cout << "Request " << requestId << " not found or already rejected." << std::endl;
-}
+// void Member::rejectRequest(int requestId) {
+//     // Tìm yêu cầu cụ thể trong danh sách yêu cầu của thành viên
+//     for (Request& request : requests) {
+//         if (request.getRequestID() == requestId) {
+//             // Đánh dấu yêu cầu là đã từ chối
+//             request.setAccepted(false);
+//             std::cout << "Request " << requestId << " has been rejected." << std::endl;
+//             return; // Kết thúc khi đã tìm thấy yêu cầu
+//         }
+//     }
+//     // Nếu không tìm thấy yêu cầu
+//     std::cout << "Request " << requestId << " not found or already rejected." << std::endl;
+// }
 
 
 void Member::rateSupporter(int supporterId, int skillRating, int overallRating, const std::string& comment) {
@@ -93,13 +94,14 @@ void Member::saveDataToFile(const std::string& filename) {
     if (file.is_open()) {
         // Ghi thông tin thành viên vào tệp tin
         file << "Username: " << getUsername() << std::endl;
+        file << "Password: " << getPassword() << std::endl;
 
         // Ghi danh sách các kỹ năng của thành viên vào tệp tin
-        file << "Skills: ";
-        const std::vector<std::string>& memberSkills = getSkills();
-        for (const std::string& skill : memberSkills) {
-            file << skill << ", ";
-        }
+        // file << "Skills: ";
+        // const std::vector<std::string>& memberSkills = getSkills();
+        // for (const std::string& skill : memberSkills) {
+        //     file << skill << ", ";
+        // }
         file << std::endl;
 
         // Ghi các thông tin khác của thành viên (ví dụ: minimumRating, isAvailable) vào tệp tin
@@ -124,7 +126,6 @@ void Member::loadDataFromFile(const std::string& filename) {
                 // Xử lý từng cặp key và value từ tệp tin
                 if (key == "Username") {
                     // Gán giá trị vào trường username của thành viên
-                    username = value;
                 } else if (key == "Skills") {
                     // Gán giá trị vào trường skills của thành viên
                     // Đảm bảo bạn xử lý dữ liệu kỹ năng ở đây
