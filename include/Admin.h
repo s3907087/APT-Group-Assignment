@@ -11,7 +11,7 @@ public:
     void resetPassword(User& user, const std::string& newPassword);
     bool isAdministrator() const; // Phương thức để kiểm tra quyền Admin
     static bool adminLogin(const std::string& username, const std::string& password);
-    static void adminMenu(){}
+    static void adminMenu(const std::string& username);
 
 private:
     bool isAdmin; // Trường để xác định quyền Admin

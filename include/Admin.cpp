@@ -28,4 +28,6 @@ bool Admin::adminLogin(const std::string& username, const std::string& password)
     return username == adminUsername && password == adminPassword;
 }
 
-void Admin::adminMenu(){}
+void Admin::adminMenu(const std::string& username) {
+    std::cout << "Reset password\n";
+}

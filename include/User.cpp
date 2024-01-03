@@ -91,8 +91,9 @@ bool User::login(const std::string& username) {
     }
 
     // Assuming the first line is the password, read and compare
-    std::string storedPassword;
     std::string line;
+    std::string storedPassword;
+    
     // Skip the first line
     getline(file, line);
 
@@ -118,7 +119,8 @@ void User::viewInformation() const {
     std::cout << "Credit Points: " << creditPoints << std::endl;
 }
 
-void User::registerAccount(const std::string& newPassword, const std::string& newFullName, const std::string& newPhoneNumber, const std::string& newEmail, const std::string& newAddress) {
+void User::registerAccount(const std::string& newUserName, const std::string& newPassword, const std::string& newFullName, const std::string& newPhoneNumber, const std::string& newEmail, const std::string& newAddress) {
+    username = newUserName;
     password = newPassword;
     fullName = newFullName;
     phoneNumber = newPhoneNumber;

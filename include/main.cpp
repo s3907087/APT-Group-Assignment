@@ -40,15 +40,52 @@ bool login() {
 }
 
 void guestMenu() {
-    // Implement guest-specific functionalities
+    int choice;
+    std::cout << "1. Register\n";
+    std::cout << "2. View as Guest\n";
+    std::cout << "Enter your choice: ";
+    std::cin >> choice;
+
+    std::cin.ignore(); // Clear the input buffer
+
+    std::string username, password, name, phone, email, address;
+
+    if (choice == 1) {
+        std::cout << "Welcome to the Time Bank!\n";
+        std::cout << "To register please enter as following!\n";
+        std::cout << "Enter your username: ";
+        std::getline(std::cin, username);
+        std::cout << "Enter your password: ";
+        std::getline(std::cin, password);
+        std::cout << "Your fullname: ";
+        std::getline(std::cin, name);
+        std::cout << "Your phone: ";
+        std::getline(std::cin, phone);
+        std::cout << "Your email: ";
+        std::getline(std::cin, email);
+        std::cout << "Your address: ";
+        std::getline(std::cin, address);
+
+        Member newMember(username, password); // Assume Member constructor takes username and password
+        newMember.registerAccount(username, password, name, phone, email, address); // Register account
+        newMember.saveDataToFile(newMember.getUsername() +".dat");
+
+        std::cout << "Registration successful!\n";
+    } else if (choice == 2) {
+        // Code to view as guest
+        std::cout << "Guest viewing...\n";
+    } else {
+        std::cout << "Invalid choice. Please try again.\n";
+    }
 }
+
 
 void welcomeScreen() {
     std::cout << "EEET2482/COSC2082 ASSIGNMENT\n";
     std::cout << "\"TIME BANK\" APPLICATION\n";
     std::cout << "Instructor: Mr. Tran Duc Linh\n";
-    std::cout << "Group: Group No.\n";
-    std::cout << "sXXXXXXX, Student Name\n";
+    std::cout << "Group: 25\n";
+    std::cout << "s3907087, Tran Khanh Duc\n";
     std::cout << "sXXXXXXX, Student Name\n";
     // Add more student details as needed
 
@@ -76,7 +113,7 @@ void welcomeScreen() {
             std::cin >> password;
 
             if (Admin::adminLogin(username, password)) {
-                Admin::adminMenu();
+                Admin::adminMenu(username);
             } else {
                 std::cout << "Invalid admin credentials." << std::endl;
             }
@@ -86,23 +123,6 @@ void welcomeScreen() {
 }
 
 int main() {
-    // Creating an instance of Member
-    Member member("john_doe", "password123");
-    Member member1("john_doe_2", "123");
-
-    //Creating instance of Admin
-    Admin admin1("admin", "adminpass", true);
-
-    // Setting up member's data
-    member.registerMember("John Doe", "123456789", "john@example.com", "123 Main St");
-    member1.registerMember("John Doe 2", "123", "john@example.com", "123 Main St");
-    // Add other necessary member setup here
-
-    // Saving member's data to a file
-    member.saveDataToFile(member.getUsername() +".dat");
-    std::cout << "member's pass " << member.getPassword() << std::endl;
-    member1.saveDataToFile(member1.getUsername() +".dat");
-    std::cout << "member1's pass " << member1.getPassword() << std::endl;
 
     welcomeScreen();
     
