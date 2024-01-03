@@ -41,6 +41,8 @@ public:
     // Tải dữ liệu từ tệp
     void loadDataFromFile(const std::string& filename);
 
+    static void memberMenu(const std::string& username);
+
 private:
     std::string fullName;
     std::string phoneNumber;

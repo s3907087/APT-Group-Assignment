@@ -93,8 +93,8 @@ void Member::saveDataToFile(const std::string& filename) {
 
     if (file.is_open()) {
         // Ghi thông tin thành viên vào tệp tin
-        file << "Username: " << getUsername() << std::endl;
-        file << "Password: " << getPassword() << std::endl;
+        file << getUsername() << std::endl;
+        file << getPassword() << std::endl;
 
         // Ghi danh sách các kỹ năng của thành viên vào tệp tin
         // file << "Skills: ";
@@ -144,5 +144,26 @@ void Member::loadDataFromFile(const std::string& filename) {
         // Xử lý lỗi mở tệp tin
         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
     }
+}
+void Member::memberMenu(const std::string& username) {
+    int choice;
+    do {
+        std::cout << "This is your menu:\n";
+        std::cout << "0. Exit\n";
+        std::cout << "1. View Information\n";
+        std::cout << "2. ...\n";
+        std::cout << "Enter your choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                // View information
+                break;
+            case 2:
+                // Other member functionalities
+                break;
+            // Add more cases as needed
+        }
+    } while (choice != 0);
 }
 

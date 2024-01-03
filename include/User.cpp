@@ -1,4 +1,5 @@
 #include "User.h"
+#include "Member.h"
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -35,48 +36,77 @@ int User::getCreditPoints() const {
     return creditPoints;
 }
 
-bool User::login() const {
-    std::string username, password, line, fileUsername, filePassword;
-    bool userFound = false;
+bool User::login(const std::string& username) {
+    // std::string username, password, line, fileUsername, filePassword;
+    // bool userFound = false;
 
-    // Get username and password from the user
-    std::cout << "Enter username: ";
-    std::cin >> username;
-    std::cout << "Enter password: ";
+    // // Get username and password from the user
+    // std::cout << "Enter username: ";
+    // std::cin >> username;
+    // std::cout << "Enter password: ";
+    // std::cin >> password;
+
+    // // Open the .dat file to search for the user
+    // std::ifstream file(username + ".dat");
+    // if (file.is_open()) {
+    //     while (getline(file, line)) {
+    //         std::istringstream iss(line);
+    //         getline(iss, fileUsername, ',');
+    //         getline(iss, filePassword);
+
+    //         // Trim leading and trailing spaces
+    //         fileUsername.erase(0, fileUsername.find_first_not_of(' ')); 
+    //         fileUsername.erase(fileUsername.find_last_not_of(' ')+1);
+    //         filePassword.erase(0, filePassword.find_first_not_of(' ')); 
+    //         filePassword.erase(filePassword.find_last_not_of(' ')+1);
+
+    //         if (username == fileUsername && password == filePassword) {
+    //             userFound = true;
+    //             break;
+    //         }
+    //     }
+    //     file.close();
+
+    //     if (userFound) {
+    //         std::cout << "Login successful!" << std::endl;
+    //         return true;
+    //     } else {
+    //         std::cout << "Login failed: Invalid username or password." << std::endl;
+    //     }
+    // } else {
+    //     std::cerr << "Unable to open file." << std::endl;
+    // }
+
+    // return false;
+    std::string password;
+    std::cout << "Enter password for " << username << ": ";
     std::cin >> password;
 
-    // Open the .dat file to search for the user
+    // Here, add the logic to read from the file and check credentials
+    // For example, open the file named username + ".dat"
     std::ifstream file(username + ".dat");
-    if (file.is_open()) {
-        while (getline(file, line)) {
-            std::istringstream iss(line);
-            getline(iss, fileUsername, ',');
-            getline(iss, filePassword);
-
-            // Trim leading and trailing spaces
-            fileUsername.erase(0, fileUsername.find_first_not_of(' ')); 
-            fileUsername.erase(fileUsername.find_last_not_of(' ')+1);
-            filePassword.erase(0, filePassword.find_first_not_of(' ')); 
-            filePassword.erase(filePassword.find_last_not_of(' ')+1);
-
-            if (username == fileUsername && password == filePassword) {
-                userFound = true;
-                break;
-            }
-        }
-        file.close();
-
-        if (userFound) {
-            std::cout << "Login successful!" << std::endl;
-            return true;
-        } else {
-            std::cout << "Login failed: Invalid username or password." << std::endl;
-        }
-    } else {
-        std::cerr << "Unable to open file." << std::endl;
+    if (!file.is_open()) {
+        std::cerr << "Failed to open user data file." << std::endl;
+        return false;
     }
 
-    return false;
+    // Assuming the first line is the password, read and compare
+    std::string storedPassword;
+    std::string line;
+    // Skip the first line
+    getline(file, line);
+
+    // // Read the second line for the password
+    getline(file, storedPassword);
+    file.close();
+
+    if (password == storedPassword) {
+        std::cout << "Login successful!" << std::endl;
+        return true;
+    } else {
+        std::cout << "Invalid username or password." << std::endl;
+        return false;
+    }
 }
 
 void User::viewInformation() const {
