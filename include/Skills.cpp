@@ -1,19 +1,49 @@
-#ifndef SKILLS_H
-#define SKILLS_H
+#include "Skills.h"
 
+#include <iostream>
 #include <string>
 #include <vector>
+#include <sstream>
+using namespace std;
 
-class Skills {
-public:
-    Skills();
-    void addSkill(const std::string& skill);
-    void removeSkill(const std::string& skill);
-    bool hasSkill(const std::string& skill) const;
-    const std::vector<std::string>& getSkills() const;
+#include "Skills.h"
 
-private:
-    std::vector<std::string> skills;
-};
+Skills::Skills(const std::string& Skills)
+{
+    std::istringstream ss(Skills);
+    std::string skill;
+    while (std::getline(ss, skill, ',')) {
+        skills.push_back(skill);
+    }
+}
 
-#endif // SKILLS_H
+void Skills::addSkill(const std::string& skill)
+{
+    skills.push_back(skill);
+}
+
+void Skills::removeSkill(const std::string& skill)
+{
+    for(int i = 0; i < skills.size(); ++i){
+        if(skills[i] == skill){
+            skills.erase(skills.begin() + i);
+        }
+    }
+}
+
+bool Skills::hasSkill(const std::string& skill) const
+{
+    char currentSkill;
+
+    for (int i = 0; i < skill.size(); ++i){
+        if (skill[i] == currentSkill){
+            return true;
+        }
+    }
+    return false;
+}
+
+const std::vector<std::string>& Skills::getSkills() const
+{
+    return skills;
+}

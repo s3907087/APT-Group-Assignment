@@ -36,6 +36,29 @@ int User::getCreditPoints() const {
     return creditPoints;
 }
 
+const std::string& setUsername(const std::string& username){
+    username == username;
+}
+const std::string& setFullName(const std::string& fullname){
+    fullname == fullname;
+}
+
+const std::string& setPhoneNumber(const std::string& phoneNumber){
+    phoneNumber == phoneNumber;
+}
+
+const std::string& setEmail(const std::string& email){
+    email == email;
+}
+
+const std::string& setAddress(const std::string& address){
+    address == address;
+}
+
+int setCreditPoints(int creditPoints){
+    creditPoints = creditPoints;
+}
+
 bool User::login(const std::string& username) {
     // std::string username, password, line, fileUsername, filePassword;
     // bool userFound = false;

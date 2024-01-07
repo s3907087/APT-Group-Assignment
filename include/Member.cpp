@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 #include "User.h"
+#include <vector>
 
 Member::Member(const std::string& username, const std::string& password)
     : User(username, password, "", "", "", "", 0), isAvailable(false), minimumRating(0) {
@@ -95,6 +96,10 @@ void Member::saveDataToFile(const std::string& filename) {
         // Ghi thông tin thành viên vào tệp tin
         file << getUsername() << std::endl;
         file << getPassword() << std::endl;
+        file << getFullName() << std::endl;
+        file << getPhoneNumber() << std::endl;
+        file << getEmail() << std::endl;
+        file << getAddress() << std::endl;
 
         // Ghi danh sách các kỹ năng của thành viên vào tệp tin
         // file << "Skills: ";
@@ -114,7 +119,7 @@ void Member::saveDataToFile(const std::string& filename) {
     }
 }
 
-void Member::loadDataFromFile(const std::string& filename) {
+void Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& skills) {
     std::ifstream file(filename);
 
     if (file.is_open()) {
@@ -126,15 +131,24 @@ void Member::loadDataFromFile(const std::string& filename) {
                 // Xử lý từng cặp key và value từ tệp tin
                 if (key == "Username") {
                     // Gán giá trị vào trường username của thành viên
+                    setUsername() == value;
                 } else if (key == "Skills") {
                     // Gán giá trị vào trường skills của thành viên
                     // Đảm bảo bạn xử lý dữ liệu kỹ năng ở đây
+                    std::istringstream skillStream(value);
+                    std::string skill;
+                    while (std::getline(skillStream, skill, ',')) {
+                        skills.push_back(skill);
+                    }
                 } else if (key == "MinimumRating") {
                     // Gán giá trị vào trường minimumRating của thành viên
                     // Đảm bảo bạn xử lý dữ liệu minimumRating ở đây
+                    minimumRating = std::stoi(value);
+
                 } else if (key == "IsAvailable") {
                     // Gán giá trị vào trường isAvailable của thành viên
                     // Đảm bảo bạn xử lý dữ liệu isAvailable ở đây
+                    isAvailable = (value == "true");
                 }
                 // Các trường khác có thể được xử lý tương tự
             }
@@ -145,6 +159,37 @@ void Member::loadDataFromFile(const std::string& filename) {
         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
     }
 }
+// void Member::loadDataFromFile(const std::string& filename) {
+//     std::ifstream file(filename);
+
+//     if (file.is_open()) {
+//         std::string line;
+//         while (std::getline(file, line)) {
+//             std::istringstream iss(line);
+//             std::string key, value;
+//             if (std::getline(iss, key, ':') && std::getline(iss, value)) {
+//                 // Xử lý từng cặp key và value từ tệp tin
+//                 if (key == "Username") {
+//                     // Gán giá trị vào trường username của thành viên
+//                 } else if (key == "Skills") {
+//                     // Gán giá trị vào trường skills của thành viên
+//                     // Đảm bảo bạn xử lý dữ liệu kỹ năng ở đây
+//                 } else if (key == "MinimumRating") {
+//                     // Gán giá trị vào trường minimumRating của thành viên
+//                     // Đảm bảo bạn xử lý dữ liệu minimumRating ở đây
+//                 } else if (key == "IsAvailable") {
+//                     // Gán giá trị vào trường isAvailable của thành viên
+//                     // Đảm bảo bạn xử lý dữ liệu isAvailable ở đây
+//                 }
+//                 // Các trường khác có thể được xử lý tương tự
+//             }
+//         }
+//         file.close();
+//     } else {
+//         // Xử lý lỗi mở tệp tin
+//         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
+//     }
+// }
 void Member::memberMenu(const std::string& username) {
     int choice;
     do {

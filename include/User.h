@@ -14,6 +14,11 @@ public:
     const std::string& getEmail() const;
     const std::string& getAddress() const;
     int getCreditPoints() const;
+    const std::string& setUsername() const;
+    const std::string& setFullName() const;
+    const std::string& setPhoneNumber() const;
+    const std::string& setEmail() const;
+    int setCreditPoints() const;
 
     static bool login(const std::string& username);
     void viewInformation() const;

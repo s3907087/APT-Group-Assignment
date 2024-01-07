@@ -39,7 +39,7 @@ public:
     void saveDataToFile(const std::string& filename);
 
     // Tải dữ liệu từ tệp
-    void loadDataFromFile(const std::string& filename);
+    void loadDataFromFile(const std::string& filename, std::vector<Skills>& skills);
 
     static void memberMenu(const std::string& username);
 
