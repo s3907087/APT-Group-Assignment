@@ -36,30 +36,37 @@ int User::getCreditPoints() const {
     return creditPoints;
 }
 
-const std::string& setUsername(const std::string& username){
-    username == username;
-}
-const std::string& setFullName(const std::string& fullname){
-    fullname == fullname;
+void User::setUsername(const std::string& newUsername) {
+    username = newUsername;
 }
 
-const std::string& setPhoneNumber(const std::string& phoneNumber){
-    phoneNumber == phoneNumber;
+void User::setPassword(const std::string& newPassword){
+    password = newPassword;
 }
 
-const std::string& setEmail(const std::string& email){
-    email == email;
+void User::setFullName(const std::string& newFullName) {
+    fullName = newFullName;
 }
 
-const std::string& setAddress(const std::string& address){
-    address == address;
+void User::setPhoneNumber(const std::string& newPhoneNumber) {
+    phoneNumber = newPhoneNumber;
 }
 
-int setCreditPoints(int creditPoints){
-    creditPoints = creditPoints;
+void User::setEmail(const std::string& newEmail) {
+    email = newEmail;
 }
 
-bool User::login(const std::string& username) {
+void User::setAddress(const std::string& newAddress) {
+    address = newAddress;
+}
+
+void User::setCreditPoints(int newCreditPoints) {
+    creditPoints = newCreditPoints;
+}
+
+std::pair<bool, Member> User::login(const std::string& username) {
+
+    //V1
     // std::string username, password, line, fileUsername, filePassword;
     // bool userFound = false;
 
@@ -101,46 +108,76 @@ bool User::login(const std::string& username) {
     // }
 
     // return false;
+
+    //V2
+    // std::string password;
+    // std::cout << "Enter password for " << username << ": ";
+    // std::cin >> password;
+
+    // // Here, add the logic to read from the file and check credentials
+    // // For example, open the file named username + ".dat"
+    // std::ifstream file(username + ".dat");
+    // if (!file.is_open()) {
+    //     std::cerr << "Failed to open user data file." << std::endl;
+    //     return false;
+    // }
+
+    // // Assuming the first line is the password, read and compare
+    // std::string line;
+    // std::string storedPassword;
+    
+    // // Skip the first line
+    // getline(file, line);
+
+    // // // Read the second line for the password
+    // getline(file, storedPassword);
+    // file.close();
+
+    // if (password == storedPassword) {
+    //     std::cout << "Login successful!" << std::endl;
+    //     return true;
+    // } else {
+    //     std::cout << "Invalid username or password." << std::endl;
+    //     return false;
+    // }
+
+
+    //V3
     std::string password;
     std::cout << "Enter password for " << username << ": ";
     std::cin >> password;
 
-    // Here, add the logic to read from the file and check credentials
-    // For example, open the file named username + ".dat"
-    std::ifstream file(username + ".dat");
-    if (!file.is_open()) {
-        std::cerr << "Failed to open user data file." << std::endl;
-        return false;
-    }
+    // Use loadDataFromFile to load user data
+    std::vector<Skills> skills;  // Assuming you need to pass skills to Member
+    Member member(username, password);
+    member.loadDataFromFile(username + ".dat", skills);
 
-    // Assuming the first line is the password, read and compare
-    std::string line;
-    std::string storedPassword;
-    
-    // Skip the first line
-    getline(file, line);
+    // Access member data as needed
+    std::string storedPassword = member.getPassword();
 
-    // // Read the second line for the password
-    getline(file, storedPassword);
-    file.close();
+    // Trim leading and trailing whitespaces from entered and stored passwords
+    password.erase(0, password.find_first_not_of(' '));
+    password.erase(password.find_last_not_of(' ')+1);
+    storedPassword.erase(0, storedPassword.find_first_not_of(' '));
+    storedPassword.erase(storedPassword.find_last_not_of(' ')+1);
 
     if (password == storedPassword) {
         std::cout << "Login successful!" << std::endl;
-        return true;
+        return std::make_pair(true, member);
     } else {
         std::cout << "Invalid username or password." << std::endl;
-        return false;
+        return std::make_pair(false, Member());  // Return a default-constructed Member for invalid login
     }
 }
 
-void User::viewInformation() const {
-    std::cout << "Username: " << username << std::endl;
-    std::cout << "Full Name: " << fullName << std::endl;
-    std::cout << "Phone Number: " << phoneNumber << std::endl;
-    std::cout << "Email: " << email << std::endl;
-    std::cout << "Address: " << address << std::endl;
-    std::cout << "Credit Points: " << creditPoints << std::endl;
-}
+// void User::viewInformation() const {
+//     std::cout << "Username: " << username << std::endl;
+//     std::cout << "Full Name: " << fullName << std::endl;
+//     std::cout << "Phone Number: " << phoneNumber << std::endl;
+//     std::cout << "Email: " << email << std::endl;
+//     std::cout << "Address: " << address << std::endl;
+//     std::cout << "Credit Points: " << creditPoints << std::endl;
+// }
 
 void User::registerAccount(const std::string& newUserName, const std::string& newPassword, const std::string& newFullName, const std::string& newPhoneNumber, const std::string& newEmail, const std::string& newAddress) {
     username = newUserName;
@@ -149,6 +186,7 @@ void User::registerAccount(const std::string& newUserName, const std::string& ne
     phoneNumber = newPhoneNumber;
     email = newEmail;
     address = newAddress;
+    creditPoints = 20;
 }
 
 void User::resetPassword(const std::string& newPassword) {

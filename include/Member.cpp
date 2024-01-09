@@ -7,13 +7,18 @@
 #include "User.h"
 #include <vector>
 
+
+Member::Member() : User("", "", "", "", "", "", 0), isAvailable(false), minimumRating(0) {
+    // Initialize member-specific data
+}
+
 Member::Member(const std::string& username, const std::string& password)
     : User(username, password, "", "", "", "", 0), isAvailable(false), minimumRating(0) {
     // Khởi tạo dữ liệu thành viên
 }
 
 void Member::registerMember(const std::string& fullName, const std::string& phoneNumber,
-                            const std::string& email, const std::string& homeAddress) {
+                            const std::string& email, const std::string& homeAddress, const int& CP) {
     this->fullName = fullName;
     this->phoneNumber = phoneNumber;
     this->email = email;
@@ -21,14 +26,19 @@ void Member::registerMember(const std::string& fullName, const std::string& phon
     // Lưu thông tin thành viên vào cơ sở dữ liệu hoặc tệp tin
 }
 
-void Member::viewInformation() const {
-    // Hiển thị thông tin thành viên
+void Member::viewInformation() {
+    // Load data from the file
+    // std::vector<Skills> skills;  // Assuming you need to pass skills to Member
+    // loadDataFromFile(getUsername() + ".dat", skills);
+
+    // Display additional information specific to Member
     std::cout << "Username: " << getUsername() << std::endl;
-    std::cout << "Full Name: " << fullName << std::endl;
-    std::cout << "Phone Number: " << phoneNumber << std::endl;
-    std::cout << "Email: " << email << std::endl;
-    std::cout << "Home Address: " << homeAddress << std::endl;
-    // Hiển thị các thông tin khác của thành viên
+    std::cout << "Full Name: " << getFullName() << std::endl;
+    std::cout << "Phone Number: " << getPhoneNumber() << std::endl;
+    std::cout << "Email: " << getEmail() << std::endl;
+    std::cout << "Home Address: " << getAddress() << std::endl;
+    std::cout << "Credit points: " << getCreditPoints() << std::endl;
+    // Display any other member-specific information
 }
 
 void Member::listAvailable(const std::vector<Skills>& skills, int minimumRating) {
@@ -94,12 +104,13 @@ void Member::saveDataToFile(const std::string& filename) {
 
     if (file.is_open()) {
         // Ghi thông tin thành viên vào tệp tin
-        file << getUsername() << std::endl;
-        file << getPassword() << std::endl;
-        file << getFullName() << std::endl;
-        file << getPhoneNumber() << std::endl;
-        file << getEmail() << std::endl;
-        file << getAddress() << std::endl;
+        file << "Username: " << getUsername() << std::endl;
+        file << "Password: " << getPassword() << std::endl;
+        file << "Fullname: " << getFullName() << std::endl;
+        file << "Phone: " << getPhoneNumber() << std::endl;
+        file << "Email: " << getEmail() << std::endl;
+        file << "Address: " << getAddress() << std::endl;
+        file << "Credit points: " << getCreditPoints() << std::endl;
 
         // Ghi danh sách các kỹ năng của thành viên vào tệp tin
         // file << "Skills: ";
@@ -128,87 +139,67 @@ void Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
             std::istringstream iss(line);
             std::string key, value;
             if (std::getline(iss, key, ':') && std::getline(iss, value)) {
-                // Xử lý từng cặp key và value từ tệp tin
                 if (key == "Username") {
-                    // Gán giá trị vào trường username của thành viên
-                    setUsername() == value;
+                    setUsername(value);
+                } else if (key == "Password") {
+                    setPassword(value);
+                } else if (key == "Fullname") {
+                    setFullName(value);
+                } else if (key == "Phone") {
+                    setPhoneNumber(value);
+                } else if (key == "Email") {
+                    setEmail(value);
+                } else if (key == "Address") {
+                    setAddress(value);
+                } else if (key == "Credit points") {
+                    // Convert the value to an integer and assign it to creditPoints
+                    setCreditPoints(std::stoi(value));
                 } else if (key == "Skills") {
-                    // Gán giá trị vào trường skills của thành viên
-                    // Đảm bảo bạn xử lý dữ liệu kỹ năng ở đây
                     std::istringstream skillStream(value);
                     std::string skill;
                     while (std::getline(skillStream, skill, ',')) {
+                        // Handle skills as needed
+                        // For example, you can add each skill to the skills vector
                         skills.push_back(skill);
                     }
-                } else if (key == "MinimumRating") {
-                    // Gán giá trị vào trường minimumRating của thành viên
-                    // Đảm bảo bạn xử lý dữ liệu minimumRating ở đây
-                    minimumRating = std::stoi(value);
-
-                } else if (key == "IsAvailable") {
-                    // Gán giá trị vào trường isAvailable của thành viên
-                    // Đảm bảo bạn xử lý dữ liệu isAvailable ở đây
-                    isAvailable = (value == "true");
                 }
-                // Các trường khác có thể được xử lý tương tự
+                // Add more conditions for other member-specific data
             }
         }
         file.close();
     } else {
-        // Xử lý lỗi mở tệp tin
         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
     }
 }
-// void Member::loadDataFromFile(const std::string& filename) {
-//     std::ifstream file(filename);
 
-//     if (file.is_open()) {
-//         std::string line;
-//         while (std::getline(file, line)) {
-//             std::istringstream iss(line);
-//             std::string key, value;
-//             if (std::getline(iss, key, ':') && std::getline(iss, value)) {
-//                 // Xử lý từng cặp key và value từ tệp tin
-//                 if (key == "Username") {
-//                     // Gán giá trị vào trường username của thành viên
-//                 } else if (key == "Skills") {
-//                     // Gán giá trị vào trường skills của thành viên
-//                     // Đảm bảo bạn xử lý dữ liệu kỹ năng ở đây
-//                 } else if (key == "MinimumRating") {
-//                     // Gán giá trị vào trường minimumRating của thành viên
-//                     // Đảm bảo bạn xử lý dữ liệu minimumRating ở đây
-//                 } else if (key == "IsAvailable") {
-//                     // Gán giá trị vào trường isAvailable của thành viên
-//                     // Đảm bảo bạn xử lý dữ liệu isAvailable ở đây
-//                 }
-//                 // Các trường khác có thể được xử lý tương tự
-//             }
-//         }
-//         file.close();
-//     } else {
-//         // Xử lý lỗi mở tệp tin
-//         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
-//     }
-// }
 void Member::memberMenu(const std::string& username) {
-    int choice;
-    do {
-        std::cout << "This is your menu:\n";
-        std::cout << "0. Exit\n";
-        std::cout << "1. View Information\n";
-        std::cout << "2. ...\n";
-        std::cout << "Enter your choice: ";
-        std::cin >> choice;
+    // Use the login function to check if the login is successful
+    std::pair<bool, Member> loginResult = User::login(username);
+    
+    if (loginResult.first) {
+        int choice;
+        do {
+            std::cout << "This is your menu:\n";
+            std::cout << "0. Exit\n";
+            std::cout << "1. View Information\n";
+            std::cout << "2. ...\n";
+            std::cout << "Enter your choice: ";
+            std::cin >> choice;
 
-        switch (choice) {
-            case 1:
-                // View information
-                break;
-            case 2:
-                // Other member functionalities
-                break;
-            // Add more cases as needed
-        }
-    } while (choice != 0);
+            switch (choice) {
+                case 1:
+                    loginResult.second.viewInformation();
+                    break;
+                case 2:
+                    // Other member functionalities
+                    break;
+                // Add more cases as needed
+            }
+        } while (choice != 0);
+    } else {
+        std::cout << "Invalid username or password" << std::endl;
+    }
 }
+
+
 

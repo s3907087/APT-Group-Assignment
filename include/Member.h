@@ -8,26 +8,27 @@
 
 class Member : public User {
 public:
+    Member();
     Member(const std::string& username, const std::string& password);
 
     // Đăng ký thành viên
     void registerMember(const std::string& fullName, const std::string& phoneNumber,
-                        const std::string& email, const std::string& homeAddress);
+                        const std::string& email, const std::string& homeAddress, const int& CP);
 
     // Hiển thị thông tin thành viên
-    void viewInformation() const;
+    void viewInformation();
 
     // Liệt kê kỹ năng có thể thực hiện
     void listAvailable(const std::vector<Skills>& skills, int minimumRating);
 
-    // Xem danh sách các yêu cầu
-    void viewRequests();
+    // // Xem danh sách các yêu cầu
+    // void viewRequests();
 
-    // Chấp nhận yêu cầu cụ thể
-    void acceptRequest(int requestId);
+    // // Chấp nhận yêu cầu cụ thể
+    // void acceptRequest(int requestId);
 
-    // Từ chối yêu cầu cụ thể
-    void rejectRequest(int requestId);
+    // // Từ chối yêu cầu cụ thể
+    // void rejectRequest(int requestId);
 
     // Đánh giá người hỗ trợ
     void rateSupporter(int supporterId, int skillRating, int overallRating, const std::string& comment);
@@ -51,6 +52,8 @@ private:
     std::vector<Skills> skills;
     bool isAvailable;
     int minimumRating;
+    void loadDataFromFileHelper(const std::string& filename, std::vector<Skills>& skills);
+
     // Thêm các trường dữ liệu khác cần thiết cho thành viên
 };
 

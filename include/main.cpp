@@ -5,39 +5,39 @@
 #include <sstream>
 #include "Admin.h"
 
-bool login() {
-    std::string username, password;
-    std::cout << "Enter username: ";
-    std::cin >> username;
-    std::cout << "Enter password: ";
-    std::cin >> password;
+// bool login() {
+//     std::string username, password;
+//     std::cout << "Enter username: ";
+//     std::cin >> username;
+//     std::cout << "Enter password: ";
+//     std::cin >> password;
 
-    // Here, add the logic to read from the file and check credentials
-    // For example, open the file named username + ".dat"
-    std::ifstream file(username + ".dat");
-    if (!file.is_open()) {
-        std::cerr << "Failed to open user data file." << std::endl;
-        return false;
-    }
+//     // Here, add the logic to read from the file and check credentials
+//     // For example, open the file named username + ".dat"
+//     std::ifstream file(username + ".dat");
+//     if (!file.is_open()) {
+//         std::cerr << "Failed to open user data file." << std::endl;
+//         return false;
+//     }
 
-    // Assuming the first line is the password, read and compare
-    std::string storedPassword;
-    std::string line;
-    // Skip the first line
-    getline(file, line);
+//     // Assuming the first line is the password, read and compare
+//     std::string storedPassword;
+//     std::string line;
+//     // Skip the first line
+//     getline(file, line);
 
-    // // Read the second line for the password
-    getline(file, storedPassword);
-    file.close();
+//     // // Read the second line for the password
+//     getline(file, storedPassword);
+//     file.close();
 
-    if (password == storedPassword) {
-        std::cout << "Login successful!" << std::endl;
-        return true;
-    } else {
-        std::cout << "Invalid username or password." << std::endl;
-        return false;
-    }
-}
+//     if (password == storedPassword) {
+//         std::cout << "Login successful!" << std::endl;
+//         return true;
+//     } else {
+//         std::cout << "Invalid username or password." << std::endl;
+//         return false;
+//     }
+// }
 
 void guestMenu() {
     int choice;
@@ -48,7 +48,7 @@ void guestMenu() {
 
     std::cin.ignore(); // Clear the input buffer
 
-    std::string username, password, name, phone, email, address;
+    std::string username, password, fullName, phone, email, address;
 
     if (choice == 1) {
         std::cout << "Welcome to the Time Bank!\n";
@@ -58,7 +58,7 @@ void guestMenu() {
         std::cout << "Enter your password: ";
         std::getline(std::cin, password);
         std::cout << "Your fullname: ";
-        std::getline(std::cin, name);
+        std::getline(std::cin, fullName);
         std::cout << "Your phone: ";
         std::getline(std::cin, phone);
         std::cout << "Your email: ";
@@ -67,7 +67,7 @@ void guestMenu() {
         std::getline(std::cin, address);
 
         Member newMember(username, password); // Assume Member constructor takes username and password
-        newMember.registerAccount(username, password, name, phone, email, address); // Register account
+        newMember.registerAccount(username, password, fullName, phone, email, address); // Register account
         newMember.saveDataToFile(newMember.getUsername() +".dat");
 
         std::cout << "Registration successful!\n";
@@ -102,9 +102,7 @@ void welcomeScreen() {
         case 2:
             std::cout << "Enter username: ";
             std::cin >> username;
-            if (User::login(username)) {
-                Member::memberMenu(username);
-            }
+            Member::memberMenu(username);
             break;
         case 3:
             std::cout << "Enter admin username: ";

@@ -2,6 +2,8 @@
 #define USER_H
 
 #include <string>
+// Forward declaration
+class Member;
 
 class User {
 public:
@@ -14,13 +16,15 @@ public:
     const std::string& getEmail() const;
     const std::string& getAddress() const;
     int getCreditPoints() const;
-    const std::string& setUsername() const;
-    const std::string& setFullName() const;
-    const std::string& setPhoneNumber() const;
-    const std::string& setEmail() const;
-    int setCreditPoints() const;
+    void setUsername(const std::string& newUsername);
+    void setPassword(const std::string& newPass);
+    void setFullName(const std::string& newFullName);
+    void setPhoneNumber(const std::string& newPhoneNumber);
+    void setEmail(const std::string& newEmail);
+    void setAddress(const std::string& newAddress);
+    void setCreditPoints(int newCreditPoints);
 
-    static bool login(const std::string& username);
+    static std::pair<bool, Member> login(const std::string& username);   
     void viewInformation() const;
     void registerAccount(const std::string& newUserName, const std::string& newPassword, const std::string& newFullName, const std::string& newPhoneNumber, const std::string& newEmail, const std::string& newAddress);
     void resetPassword(const std::string& newPassword);
