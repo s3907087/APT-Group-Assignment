@@ -3,41 +3,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <filesystem>
 #include "Admin.h"
 
-// bool login() {
-//     std::string username, password;
-//     std::cout << "Enter username: ";
-//     std::cin >> username;
-//     std::cout << "Enter password: ";
-//     std::cin >> password;
-
-//     // Here, add the logic to read from the file and check credentials
-//     // For example, open the file named username + ".dat"
-//     std::ifstream file(username + ".dat");
-//     if (!file.is_open()) {
-//         std::cerr << "Failed to open user data file." << std::endl;
-//         return false;
-//     }
-
-//     // Assuming the first line is the password, read and compare
-//     std::string storedPassword;
-//     std::string line;
-//     // Skip the first line
-//     getline(file, line);
-
-//     // // Read the second line for the password
-//     getline(file, storedPassword);
-//     file.close();
-
-//     if (password == storedPassword) {
-//         std::cout << "Login successful!" << std::endl;
-//         return true;
-//     } else {
-//         std::cout << "Invalid username or password." << std::endl;
-//         return false;
-//     }
-// }
 
 void guestMenu() {
     int choice;
@@ -50,11 +18,20 @@ void guestMenu() {
 
     std::string username, password, fullName, phone, email, address;
 
-    if (choice == 1) {
-        std::cout << "Welcome to the Time Bank!\n";
-        std::cout << "To register please enter as following!\n";
-        std::cout << "Enter your username: ";
-        std::getline(std::cin, username);
+    bool registrationSuccessful = false;
+    std::cout << "Welcome to the Time Bank!\n";
+    std::cout << "To register please enter as following!\n";
+    while (!registrationSuccessful) {
+    std::cout << "Enter your username: ";
+    std::getline(std::cin, username);
+
+    // Check if the file exists
+    std::string filename = username + ".dat";
+    if (std::filesystem::exists(filename)) {
+        std::cout << "Username already exists. Please choose a different username.\n";
+        // Handle the situation accordingly, e.g., ask the user to enter a different username
+    } else {
+        // Proceed with the registration process
         std::cout << "Enter your password: ";
         std::getline(std::cin, password);
         std::cout << "Your fullname: ";
@@ -68,15 +45,12 @@ void guestMenu() {
 
         Member newMember(username, password); // Assume Member constructor takes username and password
         newMember.registerAccount(username, password, fullName, phone, email, address); // Register account
-        newMember.saveDataToFile(newMember.getUsername() +".dat");
+        newMember.saveDataToFile(filename);
 
         std::cout << "Registration successful!\n";
-    } else if (choice == 2) {
-        // Code to view as guest
-        std::cout << "Guest viewing...\n";
-    } else {
-        std::cout << "Invalid choice. Please try again.\n";
+        registrationSuccessful = true;
     }
+} 
 }
 
 
@@ -100,8 +74,9 @@ void welcomeScreen() {
             guestMenu();
             break;
         case 2:
-            std::cout << "Enter username: ";
-            std::cin >> username;
+            std::cin.ignore(); // Clear the input buffer
+            std::cout << "Username: ";
+            std::getline(std::cin, username);
             Member::memberMenu(username);
             break;
         case 3:
