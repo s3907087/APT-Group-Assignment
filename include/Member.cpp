@@ -170,7 +170,12 @@ void Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
     } else {
         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
     }
-}
+}namespace name
+{
+    
+} // namespace name
+
+
 
 void Member::memberMenu(const std::string& username) {
     // Use the login function to check if the login is successful

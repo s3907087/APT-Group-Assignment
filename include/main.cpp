@@ -1,9 +1,11 @@
 #include "Member.h"
 #include "User.h"
+#include "Admin.h"
+#include "Skills.h" // Include this to use Skills
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "Admin.h"
+#include <filesystem> // Include this to use std::filesystem
 
 // bool login() {
 //     std::string username, password;
@@ -50,11 +52,20 @@ void guestMenu() {
 
     std::string username, password, fullName, phone, email, address;
 
-    if (choice == 1) {
-        std::cout << "Welcome to the Time Bank!\n";
-        std::cout << "To register please enter as following!\n";
-        std::cout << "Enter your username: ";
-        std::getline(std::cin, username);
+    bool registrationSuccessful = false;
+    std::cout << "Welcome to the Time Bank!\n";
+    std::cout << "To register please enter as following!\n";
+    while (!registrationSuccessful) {
+    std::cout << "Enter your username: ";
+    std::getline(std::cin, username);
+
+    // Check if the file exists
+    std::string filename = username + ".dat";
+    if (std::filesystem::exists(filename)) {
+        std::cout << "Username already exists. Please choose a different username.\n";
+        // Handle the situation accordingly, e.g., ask the user to enter a different username
+    } else {
+        // Proceed with the registration process
         std::cout << "Enter your password: ";
         std::getline(std::cin, password);
         std::cout << "Your fullname: ";
@@ -68,15 +79,12 @@ void guestMenu() {
 
         Member newMember(username, password); // Assume Member constructor takes username and password
         newMember.registerAccount(username, password, fullName, phone, email, address); // Register account
-        newMember.saveDataToFile(newMember.getUsername() +".dat");
+        newMember.saveDataToFile(filename);
 
         std::cout << "Registration successful!\n";
-    } else if (choice == 2) {
-        // Code to view as guest
-        std::cout << "Guest viewing...\n";
-    } else {
-        std::cout << "Invalid choice. Please try again.\n";
+        registrationSuccessful = true;
     }
+} 
 }
 
 
@@ -111,17 +119,18 @@ void welcomeScreen() {
             std::cin >> password;
 
             if (Admin::adminLogin(username, password)) {
-                Admin::adminMenu(username);
+                Admin adminObj(username, password, true); // Create an Admin object with the provided username and password
+                adminObj.adminMenu(username);
             } else {
                 std::cout << "Invalid admin credentials." << std::endl;
             }
             break;
+
         // Add more cases as needed
     }
 }
 
 int main() {
-
     welcomeScreen();
     
 
