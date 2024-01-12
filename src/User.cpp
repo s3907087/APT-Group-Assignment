@@ -1,8 +1,18 @@
 #include "User.h"
 #include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
 
-User::User(const std::string& username, const std::string& password, const std::string& fullName, const std::string& phoneNumber, const std::string& email, const std::string& address, int creditPoints)
-    : username(username), password(password), fullName(fullName), phoneNumber(phoneNumber), email(email), address(address), creditPoints(creditPoints) {}
+User:: User(const std::string& username, const std::string& password, const std::string& fullName, const std::string& phoneNumber, const std::string& email, const std::string& address, int creditPoints){
+    this->username = username;
+    this->fullName = fullName;
+    this->password = password;
+    this->phoneNumber = phoneNumber;
+    this->email = email;
+    this->address = address;
+    this->creditPoints = creditPoints;
+}
 
 const std::string& User::getUsername() const {
     return username;
@@ -28,6 +38,28 @@ int User::getCreditPoints() const {
     return creditPoints;
 }
 
+const std::string& setUsername(const std::string& username){
+    username == username;
+}
+const std::string& setFullName(const std::string& fullname){
+    fullname == fullname;
+}
+
+const std::string& setPhoneNumber(const std::string& phoneNumber){
+    phoneNumber == phoneNumber;
+}
+
+const std::string& setEmail(const std::string& email){
+    email == email;
+}
+
+const std::string& setAddress(const std::string& address){
+    address == address;
+}
+
+int setCreditPoints(int creditPoints){
+    creditPoints = creditPoints;
+}
 bool User::login(const std::string& enteredPassword) const {
     return password == enteredPassword;
 }

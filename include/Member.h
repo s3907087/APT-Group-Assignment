@@ -1,6 +1,7 @@
 #ifndef MEMBER_H
 #define MEMBER_H
 
+#include "Request.h"
 #include "User.h"
 #include <vector>
 #include <string>
@@ -21,13 +22,13 @@ public:
     void listAvailable(const std::vector<Skills>& skills, int minimumRating);
 
     // Xem danh sách các yêu cầu
-    void viewRequests();
+    void viewRequests(Request& request) const;
 
     // Chấp nhận yêu cầu cụ thể
-    void acceptRequest(int requestId);
+    void acceptRequest(int requestId, Request& request);
 
     // Từ chối yêu cầu cụ thể
-    void rejectRequest(int requestId);
+    void rejectRequest(int requestId, Request& request);
 
     // Đánh giá người hỗ trợ
     void rateSupporter(int supporterId, int skillRating, int overallRating, const std::string& comment);
@@ -36,10 +37,10 @@ public:
     void rateHost(int hostId, int rating, const std::string& comment);
 
     // Lưu dữ liệu vào tệp
-    void saveDataToFile(const std::string& filename);
+    void saveDataToFile(const std::string& filename, Skills& skills);
 
     // Tải dữ liệu từ tệp
-    void loadDataFromFile(const std::string& filename);
+    void loadDataFromFile(const std::string& filename, vector<Skills>& skills);
 
 private:
     std::string fullName;
