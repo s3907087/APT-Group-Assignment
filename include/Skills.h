@@ -12,6 +12,7 @@ public:
     bool hasSkill(const std::string& skill) const;
     const std::vector<std::string>& getSkills() const;
 
+    friend class Booking;
 private:
     std::vector<std::string> skills;
 };

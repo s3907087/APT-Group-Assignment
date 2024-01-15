@@ -42,6 +42,8 @@ public:
     // Tải dữ liệu từ tệp
     void loadDataFromFile(const std::string& filename, vector<Skills>& skills);
 
+    friend class Booking;
+
 private:
     std::string fullName;
     std::string phoneNumber;
