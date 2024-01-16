@@ -11,7 +11,7 @@ Time::Time(){
     this->StartTime = "";
     this->EndTime = "";
 }
-Time::Time(const string& StartTime, const string& EndTime): StartTime(StartTime),EndTime(EndTime){}
+Time::Time(string StartTime, string EndTime): StartTime(StartTime),EndTime(EndTime){}
 
 string Time::getStartTime(){
     return StartTime;
@@ -21,19 +21,19 @@ string Time::getEndTime(){
     return EndTime;
 }
 
-void Time::setStartTime(const string& StartTime){
-    StartTime == StartTime;
+void Time::setStartTime(string StartTime){
+    this->StartTime == StartTime;
 }
 
-void Time::setEndTime(const string& EndTime){
-    EndTime == EndTime;
+void Time::setEndTime(string EndTime){
+    this->EndTime == EndTime;
 }
 
 void Time::showDuration(){
     cout << "Start Time: " << StartTime << "\nEnd Time: " << EndTime << "\n";
 }
 
-bool Time::isValidDateFormat(const string& date){
+bool Time::isValidDateFormat(string date){
     stringstream ss(date);
     tm time;
     ss >> get_time(&time, "%d/%B/%Y");

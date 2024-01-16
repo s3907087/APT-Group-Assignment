@@ -11,24 +11,26 @@ using namespace std;
 // Booking::Booking( Time timeSlot,  Member Username,  Member MinimumRating,  vector<Skills> skills) 
 // : timeSlot(timeSlot), Username(Username), MinimumRating(MinimumRating), skills(skills) {}
 
-Booking::Booking( vector<string> Period,  Member Username, double  MinimumRating,  vector<Skills> skills, int ConsumePoint) 
-: Period(Period), Username(Username), MinimumRating(MinimumRating), skills(skills),isListed(false), ConsumePoint(ConsumePoint){}
+Booking::Booking(Time timeSlot, string Username, double MinimumRating,  Skills skills, int ConsumePoint, string Status)
+: timeSlot(timeSlot), Username(Username), MinimumRating(MinimumRating), skills(skills),Status(Status), ConsumePoint(ConsumePoint){}
 
+Booking::Booking(){
+}
 //  Time Booking::getTimeSlot() {
     // return timeSlot;
 // }
- vector<string> Booking::getPeriod(){
-    return Period;
+Time Booking::getTimeSlot(){
+    return timeSlot;
 }
 
- Member Booking::getUsername() {
+string Booking::getUsername() {
     return Username;
 }
 
 double Booking::getMinimumRating() {
     return MinimumRating;
 }
-vector<Skills> Booking::getSkills(){
+Skills Booking::getSkills(){
     return skills;
 }
 
@@ -40,54 +42,56 @@ int Booking::getConsumePoint(){
  void Booking::setConsumePoint(int newConsumePoint){
     ConsumePoint = newConsumePoint;
 }
-//  void Booking::setTimeSlot( Time newTimeSlot) {
-//     timeSlot = newTimeSlot;
+
+void Booking::setTimeSlot( Time newTimeSlot) {
+     timeSlot = newTimeSlot;
+}
+
+string Booking::getStatus(){
+    return Status;
+}
+//  void Booking::addTimeSLot( string timeSlot,Time Start,Time End){
+//     timeSlot == Start.getStartTime() + "->" + End.getEndTime();
+//     Period.push_back(timeSlot);
 // }
- void Booking::addTimeSLot( string timeSlot,Time Start,Time End){
-    timeSlot == Start.getStartTime() + "->" + End.getEndTime();
-    Period.push_back(timeSlot);
-}
 
- void Booking::removeTimeSLot( string timeSlot,Time Start,Time End){
-    timeSlot == Start.getStartTime() + "->" + End.getEndTime();
+// //  void Booking::removeTimeSLot( string timeSlot,Time Start,Time End){
+// //     timeSlot == Start.getStartTime() + "->" + End.getEndTime();
     
-    for (int i=0;i<Period.size();i++){
-        if (Period[i]==timeSlot){
-            Period.erase(Period.begin()+i);
-        }
-    }
+//     for (int i=0;i<Period.size();i++){
+//         if (Period[i]==timeSlot){
+//             Period.erase(Period.begin()+i);
+//         }
+//     }
+// }
+
+//  bool Booking::listSelf(){
+//     isListed = true;
+// }
+
+//  bool Booking::UnListSelf(){
+//     isListed = false;
+// }
+
+void Booking::setStatus(string Status){
+    this->Status = Status;
 }
 
- bool Booking::listSelf(){
-    isListed = true;
-}
-
- bool Booking::UnListSelf(){
-    isListed = false;
-}
-
- void Booking::setUsername( Member newUsername) {
-    Username = newUsername;
+ void Booking::setUsername( string newUsername) {
+    this->Username = newUsername;
 }
 
  void Booking::setMinimumRating(double newMinimumRating) {
     MinimumRating = newMinimumRating;
 }
 
-void Booking::showInfo(Booking booking, Member member, Skills skills) {
-    cout << "Period: ";
-    for ( auto period : booking.getPeriod()) {
-        cout << period << " ";
+void Booking::showInfo() {
+    cout << "Username: " << Username;
+    cout << "\nMinimum rating: " << to_string(MinimumRating);
+    cout << "\nStart time: " << timeSlot.getStartTime() << "-->" << " End time: " << timeSlot.getEndTime();
+    cout << "Skills: ";
+    for (string skill : skills.getSkills()){
+        cout << skill << "\n"; 
     }
-    cout << endl;
-    cout << "\nUsername: " << member.getUsername() << endl;    
-    cout << "\nMinimum Rating: " << booking.getMinimumRating() << endl;
-    cout << "\nSkills: " ;
-    for (auto skill : skills.getSkills()) {
-        cout << skill << " ";
-    }
-    cout << endl;
-
-    cout << "\nIs Listed: " << (booking.listSelf() ? "Yes" : "No") << endl;
-    cout << "\nConsume Point: " << booking.getConsumePoint() << endl;
+    cout << "\nStatus: " << Status;
 }

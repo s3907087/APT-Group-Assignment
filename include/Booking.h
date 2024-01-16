@@ -11,33 +11,35 @@ using namespace std;
 
 class Booking{
     private:
-        vector<string> Period;
-        // Time timeSlot;
-        Member Username;
+        //vector<string> Period;
+        Time timeSlot;
+        string Username;
         double MinimumRating;
-        vector<Skills> skills;
-        bool isListed;
+        Skills skills;
+        string Status;
         int ConsumePoint;
     public:
         // Booking( Time& timeSlot, Member& Username, Member& MinimumRating,  vector<Skills>& skills);
-        Booking(vector<string> Period, Member Username, double MinimumRating,  vector<Skills> skills, int ConsumePoint);
-
+        Booking(Time timeSlot, string Username, double MinimumRating,  Skills skills, int ConsumePoint, string Status);
+        Booking();
         //  Time getTimeSlot();
-         vector<string> getPeriod();
-         Member getUsername() ;
+        Time getTimeSlot();
+        string getUsername() ;
         double getMinimumRating() ;
-        vector<Skills> getSkills() ;
-         bool listSelf();
-         bool UnListSelf();
+        Skills getSkills() ;
+        // bool listSelf();
+        // bool UnListSelf();
+        string getStatus();
         int getConsumePoint();
 
-         void setConsumePoint(int newConsumePoint);
-        //  void setTimeSlot( Time newTimeSlot);
-         void addTimeSLot( string timeSlot,Time Start,Time End);
-         void removeTimeSLot( string timeSlot,Time Start,Time End);
-         void setUsername( Member newUserName) ;
+        void setStatus(string Status);
+        void setConsumePoint(int newConsumePoint);
+        void setTimeSlot( Time newTimeSlot);
+        //void addTimeSLot( string timeSlot,Time Start,Time End);
+        //void removeTimeSLot( string timeSlot,Time Start,Time End);
+         void setUsername( string newUserName) ;
          void setMinimumRating(double newMinimumRating) ; 
-        void showInfo(Booking booking, Member member, Skills skills);
+        void showInfo();
 };
 
 #endif //BOOKING_H

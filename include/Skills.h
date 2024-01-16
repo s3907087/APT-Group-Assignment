@@ -7,6 +7,7 @@
 class Skills {
 public:
     Skills(const std::string& Skills);
+    Skills();
     void addSkill(const std::string& skill);
     void removeSkill(const std::string& skill);
     bool hasSkill(const std::string& skill) const;
