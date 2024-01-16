@@ -7,6 +7,15 @@
 #include "User.h"
 #include <vector>
 
+// Function to trim leading and trailing whitespaces from a string
+std::string trimm(const std::string& str) {
+    size_t first = str.find_first_not_of(' ');
+    if (std::string::npos == first) {
+        return str;
+    }
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, (last - first + 1));
+}
 
 Member::Member() : User("", "", "", "", "", "", 0), isAvailable(false), minimumRating(0) {
     // Initialize member-specific data
@@ -107,7 +116,7 @@ void Member::saveDataToFile(const std::string& filename) {
         file << "Username: " << getUsername() << std::endl;
         file << "Password: " << getPassword() << std::endl;
         file << "Fullname: " << getFullName() << std::endl;
-        file << "Phone: " << getPhoneNumber() << std::endl;
+        file << "Phone: " << getPhoneNumber()<< std::endl;
         file << "Email: " << getEmail() << std::endl;
         file << "Address: " << getAddress() << std::endl;
         file << "Credit points: " << getCreditPoints() << std::endl;
@@ -139,6 +148,7 @@ void Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
             std::istringstream iss(line);
             std::string key, value;
             if (std::getline(iss, key, ':') && std::getline(iss, value)) {
+                value = trimm(value); // Trim the value
                 if (key == "Username") {
                     setUsername(value);
                 } else if (key == "Password") {

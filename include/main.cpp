@@ -113,7 +113,7 @@ void welcomeScreen() {
             Member::memberMenu(username);
             break;
         case 3:
-            std::cout << "Enter admin username: ";
+            std::cout << "Enter admin username: "; 
             std::cin >> username;
             std::cout << "Enter admin password: ";
             std::cin >> password;

@@ -11,6 +11,16 @@
 std::string Admin::adminUsername = "admin"; // Placeholder username
 std::string Admin::adminPassword = "adminpass"; // Placeholder password
 
+std::string trim(const std::string& str) {
+    size_t first = str.find_first_not_of(' ');
+    if (std::string::npos == first) {
+        return str;
+    }
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, (last - first + 1));
+}
+
+
 Admin::Admin(const std::string& username, const std::string& password, bool isAdmin)
     : User(username, password, "", "", "", "", 0), isAdmin(isAdmin) {}
 
@@ -47,6 +57,8 @@ void Admin::adminMenu(const std::string& username) {
             std::cout << "Enter the username of the user you want to reset the password for: ";
             std::cin >> userToReset;
 
+            userToReset = trim(userToReset); //Trim out whitespaces
+
             std::string filename = userToReset + ".dat";
             if (std::filesystem::exists(filename)) {
                 userFound = true;
@@ -63,7 +75,14 @@ void Admin::adminMenu(const std::string& username) {
             }
         }
 
-        std::cout << "Do you want to reset another password? (Y/N): ";
+        std::cout << "1. Reset another password\n";
+        std::cout << "2. Exit\n";
+        std::cout << "Enter your choice: ";
         std::cin >> repeat;
+        if (repeat == '2') {
+            std::cout << "Exiting the application." << std::endl;
+            exit(0);
+        }
     }
 }
+
