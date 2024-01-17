@@ -9,6 +9,9 @@ class User {
 public:
     User(const std::string& username, const std::string& password, const std::string& fullName, const std::string& phoneNumber, const std::string& email, const std::string& address, int creditPoints);
 
+    virtual ~User() {}
+
+
     const std::string& getUsername() const;
     const std::string& getPassword() const;
     const std::string& getFullName() const;

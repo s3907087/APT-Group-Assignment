@@ -7,7 +7,7 @@
 using namespace std;
 
 #include "Skills.h"
-
+Skills::Skills(){}
 Skills::Skills(const std::string& Skills)
 {
     std::istringstream ss(Skills);

@@ -22,4 +22,3 @@ bool Request::isAccepted() const {
 int Request::getDuration() const {
     return duration;
 }
-

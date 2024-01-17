@@ -7,14 +7,51 @@
 #include "User.h"
 #include <vector>
 
+// Function to trim leading and trailing whitespaces from a string
+std::string Member::trimm(const std::string& str) {
+    size_t first = str.find_first_not_of(' ');
+    if (std::string::npos == first) {
+        return str;
+    }
+    size_t last = str.find_last_not_of(' ');
+    return str.substr(first, (last - first + 1));
+}
 
-Member::Member() : User("", "", "", "", "", "", 0), isAvailable(false), minimumRating(0) {
+Member::Member() : User("", "", "", "", "", "", 0),skillRating(5), supporterRating(5), hostRating(5), isAvailable(false), minimumRating(0) {
     // Initialize member-specific data
 }
 
 Member::Member(const std::string& username, const std::string& password)
-    : User(username, password, "", "", "", "", 0), isAvailable(false), minimumRating(0) {
+    : User(username, password, "", "", "", "", 0),skillRating(5), supporterRating(5), hostRating(5), isAvailable(false), minimumRating(0) {
     // Khởi tạo dữ liệu thành viên
+}
+
+int Member::getSkillRating() const{
+    return skillRating;
+}
+
+void Member::setSkillRating(int newSkillRating){
+    skillRating = newSkillRating;
+}
+
+int Member::getSupporterRating() const{
+    return supporterRating;
+}
+
+void Member::setSupporterRating(int newSupporterRating){
+    supporterRating = newSupporterRating;
+}
+
+int Member::getHostRating() const{
+    return hostRating;
+}
+
+void Member::setHostRating(int newHostRating){
+    hostRating = newHostRating;
+}
+
+std::vector<Comment> Member::getComments() const {
+    return comments;
 }
 
 void Member::registerMember(const std::string& fullName, const std::string& phoneNumber,
@@ -38,6 +75,20 @@ void Member::viewInformation() {
     std::cout << "Email: " << getEmail() << std::endl;
     std::cout << "Home Address: " << getAddress() << std::endl;
     std::cout << "Credit points: " << getCreditPoints() << std::endl;
+    std::cout << "Skill Rating: " << getSkillRating() << std::endl;
+    std::cout << "Supporter Rating: " << getSupporterRating() << std::endl;
+    std::cout << "Host Rating: " << getHostRating() << std::endl;
+    // Display saved comments
+    std::ifstream file(getUsername() + ".dat");
+    if (file.is_open()) {
+        std::string line;
+        while (std::getline(file, line)) {
+            std::cout << line << std::endl;
+        }
+        file.close();
+    } else {
+        std::cerr << "Failed to open file for loading comments: " << getUsername() << ".dat" << std::endl;
+    }
     // Display any other member-specific information
 }
 
@@ -46,6 +97,15 @@ void Member::listAvailable(const std::vector<Skills>& skills, int minimumRating)
     this->skills = skills;
     this->minimumRating = minimumRating;
     isAvailable = true;
+}
+
+void Member::topUp(){
+    int amount;
+    std::cout << "Your total credit: " << getCreditPoints() << "\n";
+    std::cout << "How much do you want to top up? ";
+    std::cin >> amount;
+    setCreditPoints(amount);
+    std::cout << "You have successfully topped up: " << amount << ". Thank you for choosing our service!\n"; 
 }
 
 // void Member::viewRequests() const {
@@ -89,16 +149,6 @@ void Member::listAvailable(const std::vector<Skills>& skills, int minimumRating)
 // }
 
 
-void Member::rateSupporter(int supporterId, int skillRating, int overallRating, const std::string& comment) {
-    // Đánh giá người hỗ trợ
-    // Implement logic để đánh giá người hỗ trợ
-}
-
-void Member::rateHost(int hostId, int rating, const std::string& comment) {
-    // Đánh giá chủ nhà
-    // Implement logic để đánh giá chủ nhà
-}
-
 void Member::saveDataToFile(const std::string& filename) {
     std::ofstream file(filename);
 
@@ -107,10 +157,20 @@ void Member::saveDataToFile(const std::string& filename) {
         file << "Username: " << getUsername() << std::endl;
         file << "Password: " << getPassword() << std::endl;
         file << "Fullname: " << getFullName() << std::endl;
-        file << "Phone: " << getPhoneNumber() << std::endl;
+        file << "Phone: " << getPhoneNumber()<< std::endl;
         file << "Email: " << getEmail() << std::endl;
         file << "Address: " << getAddress() << std::endl;
         file << "Credit points: " << getCreditPoints() << std::endl;
+        // Append ratings and comments to the file
+        file << "Skill Rating: " << getSkillRating() << std::endl;
+        file << "Supporter Rating: " << getSupporterRating() << std::endl;
+        file << "Host Rating: " << getHostRating() << std::endl;
+        file << "Comments: \n";
+        getComments();
+        for (const Comment& comment : comments) {
+            file << comment.content << std::endl;
+        }
+        file << "--------------------------" << std::endl;
 
         // Ghi danh sách các kỹ năng của thành viên vào tệp tin
         // file << "Skills: ";
@@ -139,6 +199,7 @@ void Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
             std::istringstream iss(line);
             std::string key, value;
             if (std::getline(iss, key, ':') && std::getline(iss, value)) {
+                value = trimm(value); // Trim the value
                 if (key == "Username") {
                     setUsername(value);
                 } else if (key == "Password") {
@@ -170,6 +231,29 @@ void Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
     } else {
         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
     }
+}namespace name
+{
+    
+} // namespace name
+void Member::rateMember(Member& memberBeingRated, int skillRating, int supporterRating, int hostRating, Comment comment) {
+    // Update skill rating and supporter rating based on the new ratings
+    skillRating = (skillRating + memberBeingRated.getSkillRating()) / 2;
+    supporterRating = (supporterRating + memberBeingRated.getSupporterRating()) / 2;
+
+    // Update host rating based on the new rating
+    hostRating = (hostRating + memberBeingRated.getHostRating()) / 2;
+
+    comment.content = getUsername() + ": " + comment.content;
+
+    // Update member's ratings
+    memberBeingRated.setSkillRating(skillRating);
+    memberBeingRated.setSupporterRating(supporterRating);
+    memberBeingRated.setHostRating(hostRating);
+    memberBeingRated.comments.push_back(comment);
+
+    // Save ratings and comments to file
+    std::string filename = memberBeingRated.getUsername() + ".dat";
+    memberBeingRated.saveDataToFile(filename);
 }
 
 void Member::memberMenu(const std::string& username) {
@@ -182,7 +266,8 @@ void Member::memberMenu(const std::string& username) {
             std::cout << "This is your menu:\n";
             std::cout << "0. Exit\n";
             std::cout << "1. View Information\n";
-            std::cout << "2. ...\n";
+            std::cout << "2. Rate Another Member\n";
+            std::cout << "3. Top up\n";
             std::cout << "Enter your choice: ";
             std::cin >> choice;
 
@@ -191,9 +276,52 @@ void Member::memberMenu(const std::string& username) {
                     loginResult.second.viewInformation();
                     break;
                 case 2:
-                    // Other member functionalities
+                    int enteredSkillRating;
+                    int enteredSupporterRating;
+                    int enteredHostRating;
+                    Comment comment;
+                    std::string username;
+                    std::cout << "Enter the username you would like to rate: ";
+                    std::cin >> username;
+                    Member userData(username, "");
+                    std::string filename = username + ".dat";
+                    std::vector<Skills> skills; // Create a vector to hold the skills
+                    userData.loadDataFromFile(filename, skills);
+                    std::cout << "How much would you rate their skill? (1-5): ";
+                    std::cin >> enteredSkillRating;
+
+                    // Check if the entered rating is within the valid range (1-5)
+                    if (enteredSkillRating < 1 || enteredSkillRating > 5) {
+                        std::cout << "Invalid rating. Please enter a number between 1 and 5." << std::endl;
+                        // You might want to handle this situation, for example, asking the user to enter the rating again.
+                        // Add appropriate logic based on your requirements.
+                        return;  // Exiting the function or taking necessary actions
+                    }
+
+                    std::cout << "How much would you rate them as a supporter? (1-5): ";
+                    std::cin >> enteredSupporterRating;
+
+                    // Check if the entered rating is within the valid range (1-5)
+                    if (enteredSupporterRating < 1 || enteredSupporterRating > 5) {
+                        std::cout << "Invalid rating. Please enter a number between 1 and 5." << std::endl;
+                        // Handle this situation, for example, asking the user to enter the rating again.
+                        return;  // Exiting the function or taking necessary actions
+                    }
+
+                    std::cout << "How much would you rate them as a host? (1-5): ";
+                    std::cin >> enteredHostRating;
+
+                    // Check if the entered rating is within the valid range (1-5)
+                    if (enteredHostRating < 1 || enteredHostRating > 5) {
+                        std::cout << "Invalid rating. Please enter a number between 1 and 5." << std::endl;
+                        // Handle this situation, for example, asking the user to enter the rating again.
+                        return;  // Exiting the function or taking necessary actions
+                    }
+                    std::cout << "Add a comment: ";
+                    std::getline(std::cin >> std::ws, comment.content);
+                    loginResult.second.rateMember(userData, enteredSkillRating, enteredSupporterRating, enteredHostRating, comment);  // Call a function to simulate rating another member
                     break;
-                // Add more cases as needed
+                
             }
         } while (choice != 0);
     } else {

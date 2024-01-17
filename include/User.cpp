@@ -145,7 +145,7 @@ std::pair<bool, Member> User::login(const std::string& username) {
     //V3
     std::string password;
     std::cout << "Enter password for " << username << ": ";
-    std::getline(std::cin, password);
+    std::cin >> password;
 
     // Use loadDataFromFile to load user data
     std::vector<Skills> skills;  // Assuming you need to pass skills to Member

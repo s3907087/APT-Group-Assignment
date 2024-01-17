@@ -1,11 +1,45 @@
 #include "Member.h"
 #include "User.h"
+#include "Admin.h"
+#include "Skills.h" // Include this to use Skills
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <filesystem>
-#include "Admin.h"
+#include <filesystem> // Include this to use std::filesystem
 
+// bool login() {
+//     std::string username, password;
+//     std::cout << "Enter username: ";
+//     std::cin >> username;
+//     std::cout << "Enter password: ";
+//     std::cin >> password;
+
+//     // Here, add the logic to read from the file and check credentials
+//     // For example, open the file named username + ".dat"
+//     std::ifstream file(username + ".dat");
+//     if (!file.is_open()) {
+//         std::cerr << "Failed to open user data file." << std::endl;
+//         return false;
+//     }
+
+//     // Assuming the first line is the password, read and compare
+//     std::string storedPassword;
+//     std::string line;
+//     // Skip the first line
+//     getline(file, line);
+
+//     // // Read the second line for the password
+//     getline(file, storedPassword);
+//     file.close();
+
+//     if (password == storedPassword) {
+//         std::cout << "Login successful!" << std::endl;
+//         return true;
+//     } else {
+//         std::cout << "Invalid username or password." << std::endl;
+//         return false;
+//     }
+// }
 
 void guestMenu() {
     int choice;
@@ -74,32 +108,31 @@ void welcomeScreen() {
             guestMenu();
             break;
         case 2:
-            std::cin.ignore(); // Clear the input buffer
-            std::cout << "Username: ";
-            std::getline(std::cin, username);
+            std::cout << "Enter username: ";
+            std::cin >> username;
             Member::memberMenu(username);
             break;
         case 3:
-            std::cout << "Enter admin username: ";
+            std::cout << "Enter admin username: "; 
             std::cin >> username;
             std::cout << "Enter admin password: ";
             std::cin >> password;
 
             if (Admin::adminLogin(username, password)) {
-                Admin::adminMenu(username);
+                Admin adminObj(username, password, true); // Create an Admin object with the provided username and password
+                adminObj.adminMenu(username);
             } else {
                 std::cout << "Invalid admin credentials." << std::endl;
             }
             break;
+
         // Add more cases as needed
     }
 }
 
 int main() {
-
     welcomeScreen();
     
 
     return 0;
 }
-
