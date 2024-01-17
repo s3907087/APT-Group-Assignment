@@ -13,6 +13,7 @@ User:: User(const std::string& username, const std::string& password, const std:
     this->address = address;
     this->creditPoints = creditPoints;
 }
+User::User(){}
 
 const std::string& User::getUsername() const {
     return username;

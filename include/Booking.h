@@ -13,18 +13,18 @@ class Booking{
     private:
         //vector<string> Period;
         Time timeSlot;
-        string Username;
+        User Username;
         double MinimumRating;
         Skills skills;
         string Status;
         int ConsumePoint;
     public:
         // Booking( Time& timeSlot, Member& Username, Member& MinimumRating,  vector<Skills>& skills);
-        Booking(Time timeSlot, string Username, double MinimumRating,  Skills skills, int ConsumePoint, string Status);
+        Booking(Time timeSlot, User Username, double MinimumRating,  Skills skills, int ConsumePoint, string Status);
         Booking();
         //  Time getTimeSlot();
         Time getTimeSlot();
-        string getUsername() ;
+        User getUsername() ;
         double getMinimumRating() ;
         Skills getSkills() ;
         // bool listSelf();
@@ -37,7 +37,7 @@ class Booking{
         void setTimeSlot( Time newTimeSlot);
         //void addTimeSLot( string timeSlot,Time Start,Time End);
         //void removeTimeSLot( string timeSlot,Time Start,Time End);
-         void setUsername( string newUserName) ;
+         void setUsername(User newUserName) ;
          void setMinimumRating(double newMinimumRating) ; 
         void showInfo();
 };

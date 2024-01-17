@@ -11,7 +11,7 @@ using namespace std;
 // Booking::Booking( Time timeSlot,  Member Username,  Member MinimumRating,  vector<Skills> skills) 
 // : timeSlot(timeSlot), Username(Username), MinimumRating(MinimumRating), skills(skills) {}
 
-Booking::Booking(Time timeSlot, string Username, double MinimumRating,  Skills skills, int ConsumePoint, string Status)
+Booking::Booking(Time timeSlot, User Username, double MinimumRating,  Skills skills, int ConsumePoint, string Status)
 : timeSlot(timeSlot), Username(Username), MinimumRating(MinimumRating), skills(skills),Status(Status), ConsumePoint(ConsumePoint){}
 
 Booking::Booking(){
@@ -23,7 +23,7 @@ Time Booking::getTimeSlot(){
     return timeSlot;
 }
 
-string Booking::getUsername() {
+User Booking::getUsername() {
     return Username;
 }
 
@@ -77,7 +77,7 @@ void Booking::setStatus(string Status){
     this->Status = Status;
 }
 
- void Booking::setUsername( string newUsername) {
+ void Booking::setUsername( User newUsername) {
     this->Username = newUsername;
 }
 
@@ -86,12 +86,12 @@ void Booking::setStatus(string Status){
 }
 
 void Booking::showInfo() {
-    cout << "Username: " << Username;
+    cout << "Username: " << Username.getUsername();
     cout << "\nMinimum rating: " << to_string(MinimumRating);
     cout << "\nStart time: " << timeSlot.getStartTime() << "-->" << " End time: " << timeSlot.getEndTime();
     cout << "Skills: ";
     for (string skill : skills.getSkills()){
         cout << skill << "\n"; 
     }
-    cout << "\nStatus: " << Status;
+    cout << "Status: " << Status;
 }
