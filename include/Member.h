@@ -12,19 +12,21 @@ public:
     Member();
     Member(const std::string& username, const std::string& password);
 
-    int getSkillRating() const;
+    int getSkillRating();
 
     void setSkillRating(int newSkillRating);
 
-    int getSupporterRating() const;
+    int getSupporterRating();
 
     void setSupporterRating(int newSupporterRating);
 
-    int getHostRating() const;
+    int getHostRating();
 
     void setHostRating(int newHostRating);
 
     std::vector<Comment> getComments() const;
+
+    std::vector<Skills> getSkills() const;
 
     // Đăng ký thành viên
     void registerMember(const std::string& fullName, const std::string& phoneNumber,
@@ -50,15 +52,20 @@ public:
     // void rejectRequest(int requestId);
 
     // Đánh giá người hỗ trợ
-    void rateMember(Member& memberBeingRated, int skillRating, int supporterRating, int hostRating, Comment comment);
+    void rateMember(Member& memberBeingRated);
+
+    // //Save username list
+    // void saveListUS(const std::string& filename, const std::vector<std::string>& usernames);
+
+    // //load username list
+    // std::vector<std::string> loadListUS(const std::string& filename);
 
     // Lưu dữ liệu vào tệp
     void saveDataToFile(const std::string& filename);
 
-    void saveRatingsToFile(const Member& memberBeingRated, const std::string& comment);
 
     // Tải dữ liệu từ tệp
-    void loadDataFromFile(const std::string& filename, std::vector<Skills>& skills);
+    bool loadDataFromFile(const std::string& filename, std::vector<Skills>& skills); //
 
     static void memberMenu(const std::string& username);
 
@@ -77,7 +84,7 @@ private:
     bool isAvailable;
     int minimumRating;
     std::vector<Comment> comments;
-    void loadDataFromFileHelper(const std::string& filename, std::vector<Skills>& skills);
+    void loadDataFromFileHelper(const std::string& filename); //, std::vector<Skills>& skills
     
 
     // Thêm các trường dữ liệu khác cần thiết cho thành viên
