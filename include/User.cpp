@@ -88,10 +88,10 @@ std::pair<bool, Member> User::login(const std::string& username) {
     storedPassword.erase(storedPassword.find_last_not_of(' ')+1);
 
     if (password == storedPassword) {
-        std::cout << "Login successful!" << std::endl;
+        std::cout << "Login successful!\n" << std::endl;
         return std::make_pair(true, member);
     } else {
-        std::cout << "Invalid username or password." << std::endl;
+        std::cout << "Invalid username or password.\n" << std::endl;
         return std::make_pair(false, Member());  // Return a default-constructed Member for invalid login
     }
 }

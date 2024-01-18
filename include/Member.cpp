@@ -112,7 +112,7 @@ void Member::topUp(){
     std::cout << "Your total credit: " << getCreditPoints() << "\n";
     std::cout << "How much do you want to top up? ";
     std::cin >> amount;
-    std::cout << "Are you sure you want to top up " << amount <<"creadit points with " << amount << "$ ?(Y/N)" << "\n";
+    std::cout << "Are you sure you want to top up " << amount <<" creadit points with " << amount << "$ ?(Y/N)" << "\n";
     std::cin >> ans;
     if(ans == "Y" || "y"){
         this->setCreditPoints(amount + getCreditPoints());

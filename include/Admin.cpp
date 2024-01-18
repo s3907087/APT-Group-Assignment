@@ -81,7 +81,7 @@ void Admin::adminMenu(const std::string& username) {
         std::cin >> repeat;
         if (repeat == '2') {
             std::cout << "Exiting the application." << std::endl;
-            exit(0);
+            return;
         }
     }
 }
