@@ -41,7 +41,8 @@
 //     }
 // }
 void registerMember() {
-    std::string username, password, fullName, phone, email, address;
+    std::string username, password, fullName, phone, email, address, choice, enteredSkill;
+    Skills skills;
 
     bool registrationSuccessful = false;
     std::cout << "Welcome to the Time Bank!\n";
@@ -67,11 +68,29 @@ void registerMember() {
             std::getline(std::cin, email);
             std::cout << "Your address: ";
             std::getline(std::cin, address);
+    
+            std::string choice;
+            std::cout << "Enter your skill: ";
+            std::getline(std::cin >> std::ws, enteredSkill);
+            enteredSkill = enteredSkill + ", ";
+            skills.addSkill(enteredSkill);
+            std::cout << "Do you want to add another skill? (Y/N)";
+            std::getline(std::cin >> std::ws, choice);
+            while (choice == "y" || choice == "Y"){
+                std::cout << "Enter your skill: ";
+                std::getline(std::cin >> std::ws, enteredSkill);
+                enteredSkill = enteredSkill + ", ";
+                skills.addSkill(enteredSkill);
+                std::cout << "Do you want to add another skill? (Y/N)";
+                std::getline(std::cin >> std::ws, choice);
+            }
+            
 
             Member newMember(username, password); // Assume Member constructor takes username and password
             newMember.registerAccount(username, password, fullName, phone, email, address); // Register account
+            newMember.setSkills(skills);
             newMember.saveDataToFile(filename);
-            
+
 
             std::cout << "Registration successful!\n";
             registrationSuccessful = true;

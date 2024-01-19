@@ -28,7 +28,6 @@ public:
     void setCreditPoints(int newCreditPoints);
 
     static std::pair<bool, Member> login(const std::string& username);   
-    void viewInformation() const;
     void registerAccount(const std::string& newUserName, const std::string& newPassword, const std::string& newFullName, const std::string& newPhoneNumber, const std::string& newEmail, const std::string& newAddress);
     void saveToUserList(const std::string& newUserName);
     void resetPassword(const std::string& newPassword);

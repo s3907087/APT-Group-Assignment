@@ -43,7 +43,7 @@ bool Skills::hasSkill(const std::string& skill) const
     return false;
 }
 
-const std::vector<std::string>& Skills::getSkills() const
+const std::vector<std::string> Skills::getSkills() const
 {
     return skills;
 }

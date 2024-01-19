@@ -11,7 +11,7 @@ public:
     void addSkill(const std::string& skill);
     void removeSkill(const std::string& skill);
     bool hasSkill(const std::string& skill) const;
-    const std::vector<std::string>& getSkills() const;
+    const std::vector<std::string> getSkills() const;
 
     friend class Booking;
 private:

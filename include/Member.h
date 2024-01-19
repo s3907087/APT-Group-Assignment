@@ -26,24 +26,18 @@ public:
 
     std::vector<Comment> getComments() const;
 
-    std::vector<Skills> getSkills() const;
+    Skills getSkills();
 
-    // Đăng ký thành viên
-    void registerMember(const std::string& fullName, const std::string& phoneNumber,
-                        const std::string& email, const std::string& homeAddress, const int& CP);
+    void setSkills(Skills newSkills);
+
 
     // Hiển thị thông tin thành viên
     void viewInformation();
 
     // Liệt kê kỹ năng có thể thực hiện
-    void listAvailable(const std::vector<Skills>& skills, int minimumRating);
+    void listAvailable(const Skills skills, int minimumRating);
 
     void topUp();
-
-
-    // static Member getUserDataByUsername(const std::string& username);
-    // // Xem danh sách các yêu cầu
-    // void viewRequests();
 
     // // Chấp nhận yêu cầu cụ thể
     // void acceptRequest(int requestId);
@@ -73,11 +67,7 @@ public:
 
 
 private:
-    std::string fullName;
-    std::string phoneNumber;
-    std::string email;
-    std::string homeAddress;
-    std::vector<Skills> skills;
+    Skills skills;
     int skillRating;
     int supporterRating;
     int hostRating;

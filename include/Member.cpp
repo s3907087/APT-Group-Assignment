@@ -56,17 +56,12 @@ std::vector<Comment> Member::getComments() const {
     return comments;
 }
 
-// std::vector<Skills> Member::getSkills() const; {
-//     return skills;
-// }
+Skills Member::getSkills() {
+    return skills;
+}
 
-void Member::registerMember(const std::string& fullName, const std::string& phoneNumber,
-                            const std::string& email, const std::string& homeAddress, const int& CP) {
-    this->fullName = fullName;
-    this->phoneNumber = phoneNumber;
-    this->email = email;
-    this->homeAddress = homeAddress;
-    // Lưu thông tin thành viên vào cơ sở dữ liệu hoặc tệp tin
+void Member::setSkills(Skills newSkills){
+    skills = newSkills;
 }
 
 void Member::viewInformation() {
@@ -98,7 +93,7 @@ void Member::viewInformation() {
     // Display any other member-specific information
 }
 
-void Member::listAvailable(const std::vector<Skills>& skills, int minimumRating) {
+void Member::listAvailable(const Skills skills, int minimumRating) {
     // Lưu danh sách kỹ năng và minimumRating vào thành viên
     this->skills = skills;
     this->minimumRating = minimumRating;
@@ -223,15 +218,16 @@ void Member::saveDataToFile(const std::string& filename) {
         for (const Comment& comment : comments) {
             file << comment.content << std::endl;
         }
-        file << "--------------------------" << std::endl;
 
         // Ghi danh sách các kỹ năng của thành viên vào tệp tin
-        // file << "Skills: ";
-        // const std::vector<std::string>& memberSkills = getSkills();
-        // for (const std::string& skill : memberSkills) {
-        //     file << skill << ", ";
-        // }
+        file << "Skills: ";
+        const Skills memberSkills = this->getSkills();
+        for(const std::string skills : memberSkills.getSkills()){
+            file << skills;
+        }
         file << std::endl;
+        
+        file << "--------------------------" << std::endl;
 
         // Ghi các thông tin khác của thành viên (ví dụ: minimumRating, isAvailable) vào tệp tin
         // ...
@@ -370,6 +366,7 @@ void Member::rateMember(Member& memberBeingRated) {
         std::cout << "Do you want to add another comment to this person? (Y/N)" << "\n";
         std::getline(std::cin >> std::ws, ans);
     }
+
     for (const Comment& existingComment : newComments) {
         std::cout << existingComment.content << "\n";
     } 
