@@ -1,11 +1,11 @@
 #include "Admin.h"
-#include "Member.h" // Include this if it's not already included in "Admin.h"
-#include "Skills.h" // Include this to use Skills
+#include "Member.h" 
+#include "Skills.h" 
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <filesystem> // Include this to use std::filesystem
-#include <vector> // Include this to use std::vector
+#include <filesystem> 
+#include <vector> 
 
 // Initialize static member variables
 std::string Admin::adminUsername = "admin"; // Placeholder username
@@ -37,11 +37,6 @@ void Admin::resetPassword(User& user, const std::string& newPassword) {
     } else {
         std::cout << "You do not have permission to perform this operation." << std::endl;
     }
-}
-
-
-bool Admin::isAdministrator() const {
-    return isAdmin;
 }
 
 bool Admin::adminLogin(const std::string& username, const std::string& password) {

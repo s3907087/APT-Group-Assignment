@@ -9,6 +9,15 @@
 #include <math.h>
 #include <algorithm>
 
+Member::Member() : User("", "", "", "", "", "", 0),skillRating(5.0), supporterRating(5.0), hostRating(5.0), isAvailable(false), minimumRating(0) {
+    // Initialize member-specific data
+}
+
+Member::Member(const std::string& username, const std::string& password)
+    : User(username, password, "", "", "", "", 0),skillRating(5.0), supporterRating(5.0), hostRating(5.0), isAvailable(false), minimumRating(0) {
+    // Initialize member-specific data
+}
+
 // Function to trim leading and trailing whitespaces from a string
 std::string Member::trimm(const std::string& str) {
     size_t first = str.find_first_not_of(' ');
@@ -17,15 +26,6 @@ std::string Member::trimm(const std::string& str) {
     }
     size_t last = str.find_last_not_of(' ');
     return str.substr(first, (last - first + 1));
-}
-
-Member::Member() : User("", "", "", "", "", "", 0),skillRating(5.0), supporterRating(5.0), hostRating(5.0), isAvailable(false), minimumRating(0) {
-    // Initialize member-specific data
-}
-
-Member::Member(const std::string& username, const std::string& password)
-    : User(username, password, "", "", "", "", 0),skillRating(5.0), supporterRating(5.0), hostRating(5.0), isAvailable(false), minimumRating(0) {
-    // Khởi tạo dữ liệu thành viên
 }
 
 int Member::getSkillRating(){
@@ -52,7 +52,7 @@ void Member::setHostRating(int newHostRating){
     hostRating = newHostRating;
 }
 
-std::vector<Comment> Member::getComments() const {
+std::vector<std::string> Member::getComments() const {
     return comments;
 }
 
@@ -65,36 +65,34 @@ void Member::setSkills(Skills newSkills){
 }
 
 void Member::viewInformation() {
-    // Load data from the file
-    // std::vector<Skills> skills;  // Assuming you need to pass skills to Member
-    // loadDataFromFile(getUsername() + ".dat", skills);
-
-    // // Display additional information specific to Member
-    // std::cout << "Username: " << getUsername() << std::endl;
-    // std::cout << "Full Name: " << getFullName() << std::endl;
-    // std::cout << "Phone Number: " << getPhoneNumber() << std::endl;
-    // std::cout << "Email: " << getEmail() << std::endl;
-    // std::cout << "Home Address: " << getAddress() << std::endl;
-    // std::cout << "Credit points: " << getCreditPoints() << std::endl;
-    // std::cout << "Skill Rating: " << getSkillRating() << std::endl;
-    // std::cout << "Supporter Rating: " << getSupporterRating() << std::endl;
-    // std::cout << "Host Rating: " << getHostRating() << std::endl;
     // Display saved comments
     std::ifstream file(getUsername() + ".dat");
     if (file.is_open()) {
         std::string line;
         while (std::getline(file, line)) {
             std::cout << line << std::endl;
+            // if (line.find("Password: ") == std::string::npos) {
+            //     std::cout << line << std::endl;
+            // }
         }
         file.close();
     } else {
         std::cerr << "Failed to open file for loading comments: " << getUsername() << ".dat" << std::endl;
     }
-    // Display any other member-specific information
 }
 
+void Member::viewInformationAsGuest(){
+    // Display information specific to Member
+    std::cout << "Username: " << getUsername() << std::endl;
+    std::cout << "Full Name: " << getFullName() << std::endl;
+    std::cout << "Phone Number: " << getPhoneNumber() << std::endl;
+    std::cout << "Email: " << getEmail() << std::endl;
+    std::cout << "Home Address: " << getAddress() << std::endl;
+    std::cout << "Credit points: " << getCreditPoints() << std::endl;
+}
+
+
 void Member::listAvailable(const Skills skills, int minimumRating) {
-    // Lưu danh sách kỹ năng và minimumRating vào thành viên
     this->skills = skills;
     this->minimumRating = minimumRating;
     isAvailable = true;
@@ -159,50 +157,10 @@ void Member::topUp(){
 //     std::cout << "Request " << requestId << " not found or already rejected." << std::endl;
 // }
 
-// void Member::saveListUS(const std::string& filename, const std::vector<std::string>& usernames) {
-//     std::ofstream file(filename);
-
-//     if (file.is_open()) {
-//         for (const auto& username : usernames) {
-//             file << username << std::endl;
-//         }
-//         file.close();
-//     } else {
-//         // Xử lý lỗi mở tệp tin
-//         std::cerr << "Failed to open file for saving data: " << filename << std::endl;
-//     }
-// }
-
-// std::vector<std::string> Member::loadListUS(const std::string& filename) {
-//     std::vector<std::string> usernames;
-
-//     std::ifstream file(filename);
-
-//     if (file.is_open()) {
-//         std::string line;
-//         while (std::getline(file, line)) {
-//             std::istringstream iss(line);
-//             std::string username;
-//             if (std::getline(iss, username)) {
-//                 username = trimm(username); // Trim the value
-//                 usernames.push_back(username);
-//             }
-//         }
-//         file.close();
-//     } else {
-//         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
-//     }
-
-//     return usernames;
-// }
-
-
-
 void Member::saveDataToFile(const std::string& filename) {
     std::ofstream file(filename);
 
     if (file.is_open()) {
-        // Ghi thông tin thành viên vào tệp tin
         file << "Username: " << getUsername() << std::endl;
         file << "Password: " << getPassword() << std::endl;
         file << "Fullname: " << getFullName() << std::endl;
@@ -210,31 +168,25 @@ void Member::saveDataToFile(const std::string& filename) {
         file << "Email: " << getEmail() << std::endl;
         file << "Address: " << getAddress() << std::endl;
         file << "Credit points: " << getCreditPoints() << std::endl;
-        // Append ratings and comments to the file
         file << "Skill Rating: " << getSkillRating() << std::endl;
         file << "Supporter Rating: " << getSupporterRating() << std::endl;
         file << "Host Rating: " << getHostRating() << std::endl;
         file << "Comments: \n";
-        for (const Comment& comment : comments) {
-            file << comment.content << std::endl;
+        for (const std::string& comment : comments) {
+            file << comment << std::endl;
         }
-
-        // Ghi danh sách các kỹ năng của thành viên vào tệp tin
         file << "Skills: ";
         const Skills memberSkills = this->getSkills();
         for(const std::string skills : memberSkills.getSkills()){
             file << skills;
         }
         file << std::endl;
-        
-        file << "--------------------------" << std::endl;
 
-        // Ghi các thông tin khác của thành viên (ví dụ: minimumRating, isAvailable) vào tệp tin
-        // ...
+        file << "--------------------------" << std::endl;
 
         file.close();
     } else {
-        // Xử lý lỗi mở tệp tin
+        //Error handler
         std::cerr << "Failed to open file for saving data: " << filename << std::endl;
     }
 }
@@ -248,7 +200,7 @@ bool Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
             std::istringstream iss(line);
             std::string key, value;
             if (std::getline(iss, key, ':') && std::getline(iss, value)) {
-                value = trimm(value); // Trim the value
+                value = trimm(value);
                 if (key == "Username") {
                     setUsername(value);
                 } else if (key == "Password") {
@@ -275,8 +227,8 @@ bool Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
                         commentStr = trimm(commentStr);
                         commentStr.erase(std::remove_if(commentStr.begin(), commentStr.end(), ::isspace), commentStr.end());
                         if (!commentStr.empty()) {
-                            Comment comment;
-                            comment.content = commentStr;
+                            std::string comment;
+                            comment = commentStr;
                             comments.push_back(comment);
                         }
                     }
@@ -287,23 +239,22 @@ bool Member::loadDataFromFile(const std::string& filename, std::vector<Skills>& 
                         skills.push_back(skill);
                     }
                 }
-                // Add more conditions for other member-specific data
             }
         }
         file.close();
         return true;
     } else {
+        //Error handler
         std::cerr << "Failed to open file for loading data: " << filename << std::endl;
         return false;
     }
 }
 
 void Member::rateMember(Member& memberBeingRated) {
-    // Update skill rating and supporter rating based on the new ratings
     int enteredSkillRating;
     int enteredSupporterRating;
     int enteredHostRating;
-    Comment comment;
+    std::string comment;
 
     std::cout << "How much would you rate their skill? (1-5): ";
     std::cin >> enteredSkillRating;
@@ -341,9 +292,9 @@ void Member::rateMember(Member& memberBeingRated) {
     memberBeingRated.setHostRating(hostRating);
 
     // Create a new vector to hold the combined comments
-    std::vector<Comment> newComments;
+    std::vector<std::string> newComments;
 
-    for (const Comment& existingComment : memberBeingRated.comments) {
+    for (const std::string& existingComment : memberBeingRated.comments) {
         newComments.push_back(existingComment);
     }
     // Calculate the middle index
@@ -352,24 +303,20 @@ void Member::rateMember(Member& memberBeingRated) {
     // Erase elements from the middle to the end
     newComments.erase(newComments.begin() + middleIndex, newComments.end());
 
-    for (const Comment& existingComment : newComments) {
-        std::cout << existingComment.content << "\n";
+    for (const std::string& existingComment : newComments) {
+        std::cout << existingComment << "\n";
     } 
     std::string ans;
     std::cout << "Do you want to add a comment to this person? (Y/N)" << "\n";
     std::getline(std::cin >> std::ws, ans);
     while (ans == "y" || ans == "Y") {
         std::cout << "Add a comment: ";
-        std::getline(std::cin >> std::ws, comment.content);
-        comment.content = getUsername() + ": " + comment.content + "( " + std::to_string(enteredSkillRating) + std::to_string(enteredSupporterRating) + std::to_string(enteredHostRating) + " ),";
+        std::getline(std::cin >> std::ws, comment);
+        comment = getUsername() + ": " + comment + "( " + std::to_string(enteredSkillRating) + std::to_string(enteredSupporterRating) + std::to_string(enteredHostRating) + " ),";
         newComments.push_back(comment);
         std::cout << "Do you want to add another comment to this person? (Y/N)" << "\n";
         std::getline(std::cin >> std::ws, ans);
     }
-
-    for (const Comment& existingComment : newComments) {
-        std::cout << existingComment.content << "\n";
-    } 
 
     // Clear existing comments and replace them with the new vector
     memberBeingRated.comments = newComments;
@@ -428,6 +375,7 @@ void Member::memberMenu(const std::string& username) {
             }
         } while (choice != 0);
     } else {
+        //Error handler
         std::cout << "Invalid username or password" << std::endl;
     }
 }

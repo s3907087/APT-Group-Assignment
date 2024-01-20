@@ -13,5 +13,6 @@ Duc:first(555),
 Duc:second(555),
 Tran:meh(333),
 Duc:third(555),
+Duc: fourth( 555 ),
+Skills: 
 --------------------------
-

@@ -111,7 +111,7 @@ void viewAsGuest() {
 
             if (temp.loadDataFromFile(filename, skill)) {
                 std::cout << "Member Information for Username: " << username << "\n";
-                temp.viewInformation();
+                temp.viewInformationAsGuest();
                 std::cout << "--------------------------------------\n";
             } else {
                 std::cerr << "Failed to load data for username: " << username << "\n";
@@ -130,6 +130,7 @@ void guestMenu() {
     std::cout << "2. View as Guest\n";
     std::cout << "Enter your choice: ";
     std::cin >> choice;
+    std::cout << "--------------------------------------\n";
 
     std::cin.ignore(); // Clear the input buffer
 

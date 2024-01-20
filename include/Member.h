@@ -5,13 +5,14 @@
 #include <vector>
 #include <string>
 #include "Skills.h"
-#include "Comment.h"
 
 class Member : public User {
 public:
+    //Constructors
     Member();
     Member(const std::string& username, const std::string& password);
 
+    //Getters & setters
     int getSkillRating();
 
     void setSkillRating(int newSkillRating);
@@ -24,45 +25,42 @@ public:
 
     void setHostRating(int newHostRating);
 
-    std::vector<Comment> getComments() const;
+    std::vector<std::string> getComments() const;
 
     Skills getSkills();
 
     void setSkills(Skills newSkills);
 
 
-    // Hiển thị thông tin thành viên
+    // View information of a member
     void viewInformation();
+    void viewInformationAsGuest();
 
-    // Liệt kê kỹ năng có thể thực hiện
+    // List availability
     void listAvailable(const Skills skills, int minimumRating);
 
     void topUp();
 
-    // // Chấp nhận yêu cầu cụ thể
+    // // Accept a request
     // void acceptRequest(int requestId);
 
-    // // Từ chối yêu cầu cụ thể
+    // // Reject a request
     // void rejectRequest(int requestId);
 
-    // Đánh giá người hỗ trợ
+    // Rate other members
     void rateMember(Member& memberBeingRated);
 
-    // //Save username list
-    // void saveListUS(const std::string& filename, const std::vector<std::string>& usernames);
-
-    // //load username list
-    // std::vector<std::string> loadListUS(const std::string& filename);
-
-    // Lưu dữ liệu vào tệp
+    // Save data to file
     void saveDataToFile(const std::string& filename);
 
 
-    // Tải dữ liệu từ tệp
+    // Load data from file
     bool loadDataFromFile(const std::string& filename, std::vector<Skills>& skills); //
 
+    //UI for member
     static void memberMenu(const std::string& username);
 
+    //trim the excess spaces when user input
     std::string trimm(const std::string& str);
 
 
@@ -73,9 +71,7 @@ private:
     int hostRating;
     bool isAvailable;
     int minimumRating;
-    std::vector<Comment> comments;
-    void loadDataFromFileHelper(const std::string& filename); //, std::vector<Skills>& skills
-    
+    std::vector<std::string> comments;    
 
     // Thêm các trường dữ liệu khác cần thiết cho thành viên
 };

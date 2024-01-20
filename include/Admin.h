@@ -9,12 +9,11 @@ public:
     Admin(const std::string& username, const std::string& password, bool isAdmin);
 
     void resetPassword(User& user, const std::string& newPassword);
-    bool isAdministrator() const; // Phương thức để kiểm tra quyền Admin
     static bool adminLogin(const std::string& username, const std::string& password);
     static void adminMenu(const std::string& username);
 
 private:
-    bool isAdmin; // Trường để xác định quyền Admin
+    bool isAdmin; 
     static std::string adminUsername;
     static std::string adminPassword;
 };
